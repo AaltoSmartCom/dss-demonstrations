@@ -87,8 +87,7 @@
 		<module>dss-standalone-app</module>
 		<module>dss-standalone-app-package</module>
 		<module>dss-demo-webapp</module>
-		<module>dss-demo-bundle</module>        
-		<module>sscd-mocca-adapter</module>
+		<module>dss-demo-bundle</module>
 		<module>dss-rest-doc-generation</module>
 	</modules>
 

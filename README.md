@@ -1,37 +1,22 @@
 ## Demonstrations for DSS : Digital Signature Service
 
 This is the demonstration repository for project DSS : https://ec.europa.eu/cefdigital/wiki/display/CEFDIGITAL/eSignature. 
+The MOCCA -adapter has been deleted since it's unecessary for the current use case.
 
-# Issue Tracker
 
-Please, use the new JIRA for project is on https://ec.europa.eu/cefdigital/tracker/projects/DSS/issues. 
+## Building the enviroment
 
-# Maven repository
+REST-endpoint can be compiled with the given Dockerfile which will first create a build image and then the actual
+production image.
 
-The release is published on CEF Digital repository : 
+If you for some reason want to generate the original tomcat zip files you can do it by running:
+```
+mvn install || true && mvn package
+```
 
-https://ec.europa.eu/cefdigital/artifact/#welcome
+Just make sure you have Maven and your preferred version of jdk11 installed.
 
-<pre>
-&lt;repository&gt;
-  &lt;id&gt;cefdigital&lt;/id&gt;
-  &lt;name&gt;cefdigital&lt;/name&gt;
-  &lt;url&gt;https://ec.europa.eu/cefdigital/artifact/content/repositories/esignaturedss/&lt;/url&gt;
-&lt;/repository&gt;
-</pre>
+## Example queries
 
-# Demonstration
-
-The release is deployed on https://ec.europa.eu/cefdigital/DSS/webapp-demo
-
-# JavaDoc
-
-The JavaDoc is available on https://ec.europa.eu/cefdigital/DSS/webapp-demo/apidocs/index.html
-
-# Ready-to-use bundles
-
-Bundles which contain the above demonstration can be downloaded from the [Maven repository](https://ec.europa.eu/cefdigital/artifact/content/repositories/esignaturedss/eu/europa/ec/joinup/sd-dss/dss-demo-bundle/).
-
-The code of the demonstration can be found on https://ec.europa.eu/cefdigital/code/projects/ESIG/repos/dss-demos/browse
-
-[![License (LGPL version 2.1)](https://img.shields.io/badge/license-GNU%20LGPL%20version%202.1-blue.svg?style=flat-square)](https://www.gnu.org/licenses/lgpl-2.1.html)
+You can find some example Postman collection in the [DSS-REST-collection.json](./DSS-REST-collection.json) file.
+Alternatively the original sample file can be found [here](https://github.com/esig/dss/blob/master/dss-cookbook/src/main/postman/DSS%20REST%20services.postman_collection.json)
