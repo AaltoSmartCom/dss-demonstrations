@@ -11,7 +11,7 @@ production image.
 
 If you for some reason want to generate the original tomcat zip files you can do it by running:
 ```
-mvn install || true && mvn compile
+mvn install || true && mvn package
 ```
 
 Just make sure you have Maven and your preferred version of jdk11 installed.
