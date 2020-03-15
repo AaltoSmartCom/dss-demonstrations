@@ -2,7 +2,7 @@ FROM maven:3.6.3-jdk-11-slim AS build
 MAINTAINER Jaan Taponen(jaan.taponen@aalto.fi)
 COPY . /home/
 WORKDIR /home
-RUN apt-get update && apt-get install -y git
+RUN apt-get update && apt-get install -y git perl openssl
 RUN mvn install || true && mvn package
 # Compile the sources, move the binary to /home and set permissions.
 RUN mv dss-demo-bundle/target/dss-demo-bundle-5.6.tar.gz . && \
