@@ -23,6 +23,5 @@ fi
 cp template.properties dss.properties
 perl -pi -e "s/user\_a\_rsa\.p12/${filename}/g" ./dss.properties
 perl -pi -e "s/password\_user/${password}/g" ./dss.properties
-rm ./dss-demo-webapp/src/main/resources/dss.properties
-mv ./dss.properties ./dss-demo-webapp/src/main/resources/dss.properties
+yes | cp -rf ./dss.properties ./dss-demo-webapp/src/main/resources/dss.properties
 yes | cp -rf $filename ./dss-demo-webapp/src/main/resources/$filename
