@@ -18,8 +18,8 @@ RUN mvn dependency:go-offline -B || true
 #
 COPY . /home/
 WORKDIR /home
-RUN mvn package
-#
+RUN apt-get update && apt-get install -y git perl openssl
+RUN mvn install || true && mvn package
 # Compile the sources, move the binary to /home and set permissions.
 #
 RUN mv dss-demo-bundle/target/dss-demo-bundle*.tar.gz . && \
