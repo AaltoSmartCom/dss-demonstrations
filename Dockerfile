@@ -3,9 +3,10 @@ MAINTAINER Jaan Taponen(jaan.taponen@aalto.fi)
 COPY . /home/
 WORKDIR /home
 RUN apt-get update && apt-get install -y git perl openssl
-RUN mvn install || true && mvn package
+RUN mvn install || true
+RUN mvn package
 # Compile the sources, move the binary to /home and set permissions.
- RUN mv dss-demo-bundle/target/dss-demo-bundle*.tar.gz . && \
+RUN mv dss-demo-bundle/target/dss-demo-bundle*.tar.gz . && \
      tar -xzf dss-demo-bundle*.tar.gz && \
      cd dss-demo-bundle*/apache-tomcat*/bin && \
      chmod +x ./startup.sh && \
