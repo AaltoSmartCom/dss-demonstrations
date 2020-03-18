@@ -1,4 +1,9 @@
 #!/bin/bash
+# 
+# Jaan Taponen(jaan.taponen@aalto.fi) Aalto Smartcom
+# Usage: setup-keys.sh [filename] [password]
+# Alternatively you can run the script without parameters and let the script generate them for you.
+#
 if [[ $# -ne 2 ]] ; then
     echo 'No parameters detected.'
     while true; do
@@ -12,6 +17,7 @@ if [[ $# -ne 2 ]] ; then
             filename='user_a.p12'
             openssl pkcs12 -inkey key.pem -in certificate.pem -export -out $filename -passout pass:$password
             rm certificate.pem && rm key.pem
+            clear
             break
             ;;
         [Nn]*) 
@@ -26,19 +32,11 @@ if [[ $# -ne 2 ]] ; then
         filename=$1
         password=$2
 fi
-
-clear
-echo '-----------------------------------'
-echo ''
-echo 'DSS init script (c) Aalto Smartcom'
-echo ''
-echo '-----------------------------------'
-
 # Checks for the certificate existion.
 if [ -f "$filename" ]; then
     echo "$filename OK!"
 else 
-    echo "$filename does not exist"
+    echo "Filename: $filename does not exist."
     exit 1
 fi
 
@@ -47,7 +45,13 @@ if openssl pkcs12 -in ${filename} -nodes -passin pass:"${password}" | openssl x5
 else
     echo "Wrong password?"
 fi
-
+# Configuration generation
+clear
+echo '-----------------------------------'
+echo ''
+echo 'DSS init script (c) Aalto Smartcom'
+echo ''
+echo '-----------------------------------'
 echo 'Generating dss.properties file...'
 cp template.properties dss.properties
 perl -pi -e "s/user\_a\_rsa\.p12/${filename}/g" ./dss.properties
