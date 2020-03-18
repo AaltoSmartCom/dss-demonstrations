@@ -16,8 +16,7 @@ if [[ $# -ne 2 ]] ; then
             read -s password
             filename='user_a.p12'
             openssl pkcs12 -inkey key.pem -in certificate.pem -export -out $filename -passout pass:$password
-            rm certificate.pem && rm key.pem
-            clear
+            rm certificate.pem && rm key.pem && clear
             break
             ;;
         [Nn]*) 
@@ -45,12 +44,12 @@ if openssl pkcs12 -in ${filename} -nodes -passin pass:"${password}" | openssl x5
 else
     echo "Wrong password?"
 fi
+#
 # Configuration generation
+#
 clear
-echo '-----------------------------------'
-echo ''
-echo 'DSS init script (c) Aalto Smartcom'
-echo ''
+echo '-----------------------------------' && echo ''
+echo 'DSS init script (c) Aalto Smartcom' && echo ''
 echo '-----------------------------------'
 echo 'Generating dss.properties file...'
 cp template.properties dss.properties
