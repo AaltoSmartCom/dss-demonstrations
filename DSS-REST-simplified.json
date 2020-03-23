@@ -1,0 +1,183 @@
+{
+	"info": {
+		"_postman_id": "32b7e472-aca0-4103-a932-6efe63dd2194",
+		"name": "DSS REST services",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:8080/services/rest/server-signing/keys",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/services/rest/server-signing/keys",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"services",
+						"rest",
+						"server-signing",
+						"keys"
+					]
+				},
+				"description": "Retrieves available server keys"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/services/rest/server-signing/key/certificate",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/services/rest/server-signing/key/certificate",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"services",
+						"rest",
+						"server-signing",
+						"key",
+						"certificate"
+					]
+				},
+				"description": "Retrieves server key by its alias ('certificate' is the alias)"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/services/rest/signature/one-document/getDataToSign",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"parameters\" : {\r\n    \"signWithExpiredCertificate\" : false,\r\n    \"signatureLevel\" : \"XAdES_BASELINE_T\",\r\n    \"signaturePackaging\" : \"ENVELOPED\",\r\n    \"signatureAlgorithm\" : \"RSA_SHA256\",\r\n    \"encryptionAlgorithm\" : \"RSA\",\r\n    \"digestAlgorithm\" : \"SHA256\",\r\n    \"contentTimestampParameters\" : {\r\n      \"digestAlgorithm\" : \"SHA256\",\r\n      \"canonicalizationMethod\" : \"http://www.w3.org/2001/10/xml-exc-c14n#\"\r\n    },\r\n    \"signatureTimestampParameters\" : {\r\n      \"digestAlgorithm\" : \"SHA256\",\r\n      \"canonicalizationMethod\" : \"http://www.w3.org/2001/10/xml-exc-c14n#\"\r\n    },\r\n    \"archiveTimestampParameters\" : {\r\n      \"digestAlgorithm\" : \"SHA256\",\r\n      \"canonicalizationMethod\" : \"http://www.w3.org/2001/10/xml-exc-c14n#\"\r\n    },\r\n    \"signingCertificate\" : {\r\n      \"encodedCertificate\" : \"MIIC6jCCAdKgAwIBAgIGLtYU17tXMA0GCSqGSIb3DQEBCwUAMDAxGzAZBgNVBAMMElJvb3RTZWxmU2lnbmVkRmFrZTERMA8GA1UECgwIRFNTLXRlc3QwHhcNMTcwNjA4MTEyNjAxWhcNNDcwNzA0MDc1NzI0WjAoMRMwEQYDVQQDDApTaWduZXJGYWtlMREwDwYDVQQKDAhEU1MtdGVzdDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMI3kZhtnipn+iiZHZ9ax8FlfE5Ow/cFwBTfAEb3R1ZQUp6/BQnBt7Oo0JWBtc9qkv7JUDdcBJXPV5QWS5AyMPHpqQ75Hitjsq/Fzu8eHtkKpFizcxGa9BZdkQjh4rSrtO1Kjs0Rd5DQtWSgkeVCCN09kN0ZsZ0ENY+Ip8QxSmyztsStkYXdULqpwz4JEXW9vz64eTbde4vQJ6pjHGarJf1gQNEc2XzhmI/prXLysWNqC7lZg7PUZUTrdegABTUzYCRJ1kWBRPm4qo0LN405c94QQd45a5kTgowHzEgLnAQI28x0M3A59TKC+ieNc6VF1PsTLpUw7PNI2VstX5jAuasCAwEAAaMSMBAwDgYDVR0PAQH/BAQDAgEGMA0GCSqGSIb3DQEBCwUAA4IBAQCK6LGA01TR+rmU8p6yhAi4OkDN2b1dbIL8l8iCMYopLCxx8xqq3ubZCOxqh1X2j6pgWzarb0b/MUix00IoUvNbFOxAW7PBZIKDLnm6LsckRxs1U32sC9d1LOHe3WKBNB6GZALT1ewjh7hSbWjftlmcovq+6eVGA5cvf2u/2+TkKkyHV/NR394nXrdsdpvygwypEtXjetzD7UT93Nuw3xcV8VIftIvHf9LjU7h+UjGmKXG9c15eYr3SzUmv6kyOI0Bvw14PWtsWGl0QdOSRvIBBrP4adCnGTgjgjk9LTcO8B8FKrr+8lHGuc0bp4lIUToiUkGILXsiEeEg9WAqm+XqO\"\r\n    },\r\n    \"blevelParams\" : {\r\n      \"trustAnchorBPPolicy\" : true,\r\n      \"signingDate\" : 1542794107033\r\n    }\r\n  },\r\n  \"toSignDocument\" : {\r\n    \"bytes\" : \"PG5vdGU+Cjx0bz5Ub3ZlPC90bz4KPGZyb20+SmFuaTwvZnJvbT4KPGhlYWRpbmc+UmVtaW5kZXI8L2hlYWRpbmc+Cjxib2R5PkRvbid0IGZvcmdldCBtZSB0aGlzIHdlZWtlbmQhPC9ib2R5Pgo8L25vdGU+\",\r\n    \"digestAlgorithm\" : null,\r\n    \"name\" : \"RemoteDocument.xml\"\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/services/rest/signature/one-document/getDataToSign",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"services",
+						"rest",
+						"signature",
+						"one-document",
+						"getDataToSign"
+					]
+				},
+				"description": "Retrieves the digest to be signed"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/services/rest/server-signing/sign/certificate/SHA256",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"bytes\": \"PGRzOlNpZ25lZEluZm8geG1sbnM6ZHM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvMDkveG1sZHNpZyMiPjxkczpDYW5vbmljYWxpemF0aW9uTWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8xMC94bWwtZXhjLWMxNG4jIj48L2RzOkNhbm9uaWNhbGl6YXRpb25NZXRob2Q+PGRzOlNpZ25hdHVyZU1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZHNpZy1tb3JlI3JzYS1zaGEyNTYiPjwvZHM6U2lnbmF0dXJlTWV0aG9kPjxkczpSZWZlcmVuY2UgSWQ9InItaWQtZGQ2N2MxNzA5OTFkZTEwYWEwNWY0YmY4Mjc5ZjYyNTgtMSIgVVJJPSIiPjxkczpUcmFuc2Zvcm1zPjxkczpUcmFuc2Zvcm0gQWxnb3JpdGhtPSJodHRwOi8vd3d3LnczLm9yZy9UUi8xOTk5L1JFQy14cGF0aC0xOTk5MTExNiI+PGRzOlhQYXRoPm5vdChhbmNlc3Rvci1vci1zZWxmOjpkczpTaWduYXR1cmUpPC9kczpYUGF0aD48L2RzOlRyYW5zZm9ybT48ZHM6VHJhbnNmb3JtIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8xMC94bWwtZXhjLWMxNG4jIj48L2RzOlRyYW5zZm9ybT48L2RzOlRyYW5zZm9ybXM+PGRzOkRpZ2VzdE1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZW5jI3NoYTI1NiI+PC9kczpEaWdlc3RNZXRob2Q+PGRzOkRpZ2VzdFZhbHVlPlZXL21RM3RvbGYrWHZEcFVxWnphWWh3V1N4ZHU3dlFOWHdkMDdBWS8wOUU9PC9kczpEaWdlc3RWYWx1ZT48L2RzOlJlZmVyZW5jZT48ZHM6UmVmZXJlbmNlIFR5cGU9Imh0dHA6Ly91cmkuZXRzaS5vcmcvMDE5MDMjU2lnbmVkUHJvcGVydGllcyIgVVJJPSIjeGFkZXMtaWQtZGQ2N2MxNzA5OTFkZTEwYWEwNWY0YmY4Mjc5ZjYyNTgiPjxkczpUcmFuc2Zvcm1zPjxkczpUcmFuc2Zvcm0gQWxnb3JpdGhtPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzEwL3htbC1leGMtYzE0biMiPjwvZHM6VHJhbnNmb3JtPjwvZHM6VHJhbnNmb3Jtcz48ZHM6RGlnZXN0TWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8wNC94bWxlbmMjc2hhMjU2Ij48L2RzOkRpZ2VzdE1ldGhvZD48ZHM6RGlnZXN0VmFsdWU+R3BQNEFabG9TZlpGS2dnYjZCb0d6dDhESzMvM1dKZGhXU1ZISnpVUHVMMD08L2RzOkRpZ2VzdFZhbHVlPjwvZHM6UmVmZXJlbmNlPjwvZHM6U2lnbmVkSW5mbz4=\"}"
+				},
+				"url": {
+					"raw": "localhost:8080/services/rest/server-signing/sign/certificate/SHA256",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"services",
+						"rest",
+						"server-signing",
+						"sign",
+						"certificate",
+						"SHA256"
+					]
+				},
+				"description": "Signs a digest on the server with the key 'certificate' and digest algorithm SHA256"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/services/rest/signature/one-document/signDocument",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"parameters\" : {\r\n    \"signingCertificate\" : {\r\n      \"encodedCertificate\" : \"MIIC6jCCAdKgAwIBAgIGLtYU17tXMA0GCSqGSIb3DQEBCwUAMDAxGzAZBgNVBAMMElJvb3RTZWxmU2lnbmVkRmFrZTERMA8GA1UECgwIRFNTLXRlc3QwHhcNMTcwNjA4MTEyNjAxWhcNNDcwNzA0MDc1NzI0WjAoMRMwEQYDVQQDDApTaWduZXJGYWtlMREwDwYDVQQKDAhEU1MtdGVzdDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMI3kZhtnipn+iiZHZ9ax8FlfE5Ow/cFwBTfAEb3R1ZQUp6/BQnBt7Oo0JWBtc9qkv7JUDdcBJXPV5QWS5AyMPHpqQ75Hitjsq/Fzu8eHtkKpFizcxGa9BZdkQjh4rSrtO1Kjs0Rd5DQtWSgkeVCCN09kN0ZsZ0ENY+Ip8QxSmyztsStkYXdULqpwz4JEXW9vz64eTbde4vQJ6pjHGarJf1gQNEc2XzhmI/prXLysWNqC7lZg7PUZUTrdegABTUzYCRJ1kWBRPm4qo0LN405c94QQd45a5kTgowHzEgLnAQI28x0M3A59TKC+ieNc6VF1PsTLpUw7PNI2VstX5jAuasCAwEAAaMSMBAwDgYDVR0PAQH/BAQDAgEGMA0GCSqGSIb3DQEBCwUAA4IBAQCK6LGA01TR+rmU8p6yhAi4OkDN2b1dbIL8l8iCMYopLCxx8xqq3ubZCOxqh1X2j6pgWzarb0b/MUix00IoUvNbFOxAW7PBZIKDLnm6LsckRxs1U32sC9d1LOHe3WKBNB6GZALT1ewjh7hSbWjftlmcovq+6eVGA5cvf2u/2+TkKkyHV/NR394nXrdsdpvygwypEtXjetzD7UT93Nuw3xcV8VIftIvHf9LjU7h+UjGmKXG9c15eYr3SzUmv6kyOI0Bvw14PWtsWGl0QdOSRvIBBrP4adCnGTgjgjk9LTcO8B8FKrr+8lHGuc0bp4lIUToiUkGILXsiEeEg9WAqm+XqO\"\r\n    },\r\n    \"signatureLevel\" : \"XAdES_BASELINE_T\",\r\n    \"signaturePackaging\" : \"ENVELOPED\",\r\n    \"signatureAlgorithm\" : \"RSA_SHA256\",\r\n    \"digestAlgorithm\" : \"SHA256\",\r\n    \"encryptionAlgorithm\" : \"RSA\",\r\n    \"contentTimestampParameters\" : {\r\n      \"digestAlgorithm\" : \"SHA256\",\r\n      \"canonicalizationMethod\" : \"http://www.w3.org/2001/10/xml-exc-c14n#\"\r\n    },\r\n    \"signatureTimestampParameters\" : {\r\n      \"digestAlgorithm\" : \"SHA256\",\r\n      \"canonicalizationMethod\" : \"http://www.w3.org/2001/10/xml-exc-c14n#\"\r\n    },\r\n    \"archiveTimestampParameters\" : {\r\n      \"digestAlgorithm\" : \"SHA256\",\r\n      \"canonicalizationMethod\" : \"http://www.w3.org/2001/10/xml-exc-c14n#\"\r\n    },\r\n    \"signWithExpiredCertificate\" : false,\r\n    \"blevelParams\" : {\r\n      \"trustAnchorBPPolicy\" : true,\r\n      \"signingDate\" : 1542794107033\r\n    }\r\n  },\r\n  \"signatureValue\" : {\r\n    \"algorithm\" : \"RSA_SHA256\",\r\n    \"value\" : \"gss6N8n+lYGY9iI8hCfmaQnfJp8tr12RQcoaM9Zre6MFUyhc6EuzymGDoApN4vNseWeKOCzV5bJG+c1f3esLOANJYG2oA2Hr0pGKjv6LTuyNrxHCCGCOGktt2CfdE1p1bfGsFOTYp9i09UK48v9EBHMQt5mfYsVFhXlFTXNmWgNoHy8cujAvv62OydeUs0IJDwu0dRQ1aIfZVbAE3BMQAtEXH78jRQIWnU2b7AX5LnoxG842foGvQ7tNv6z4IDXuG3xwOIfcVB0MKQBNxyidEKkiYzygPfhMrY4Wvd+bMGHuuOVufRF3LIKKyxeuab9LkIf6AqNanTLopm6/RYuY2w==\"\r\n  },\r\n  \"toSignDocument\" : {\r\n    \"bytes\" : \"PG5vdGU+Cjx0bz5Ub3ZlPC90bz4KPGZyb20+SmFuaTwvZnJvbT4KPGhlYWRpbmc+UmVtaW5kZXI8L2hlYWRpbmc+Cjxib2R5PkRvbid0IGZvcmdldCBtZSB0aGlzIHdlZWtlbmQhPC9ib2R5Pgo8L25vdGU+\",\r\n    \"digestAlgorithm\" : null,\r\n    \"name\" : \"RemoteDocument.xml\"\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/services/rest/signature/one-document/signDocument",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"services",
+						"rest",
+						"signature",
+						"one-document",
+						"signDocument"
+					]
+				},
+				"description": "Sends the signature values to the server"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/services/rest/validation/validateSignature",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"signedDocument\" : {\r\n    \"bytes\" : \"PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PG5vdGU+Cjx0bz5Ub3ZlPC90bz4KPGZyb20+SmFuaTwvZnJvbT4KPGhlYWRpbmc+UmVtaW5kZXI8L2hlYWRpbmc+Cjxib2R5PkRvbid0IGZvcmdldCBtZSB0aGlzIHdlZWtlbmQhPC9ib2R5Pgo8ZHM6U2lnbmF0dXJlIHhtbG5zOmRzPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3htbGRzaWcjIiBJZD0iaWQtZGQ2N2MxNzA5OTFkZTEwYWEwNWY0YmY4Mjc5ZjYyNTgiPjxkczpTaWduZWRJbmZvPjxkczpDYW5vbmljYWxpemF0aW9uTWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8xMC94bWwtZXhjLWMxNG4jIi8+PGRzOlNpZ25hdHVyZU1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZHNpZy1tb3JlI3JzYS1zaGEyNTYiLz48ZHM6UmVmZXJlbmNlIElkPSJyLWlkLWRkNjdjMTcwOTkxZGUxMGFhMDVmNGJmODI3OWY2MjU4LTEiIFVSST0iIj48ZHM6VHJhbnNmb3Jtcz48ZHM6VHJhbnNmb3JtIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvVFIvMTk5OS9SRUMteHBhdGgtMTk5OTExMTYiPjxkczpYUGF0aD5ub3QoYW5jZXN0b3Itb3Itc2VsZjo6ZHM6U2lnbmF0dXJlKTwvZHM6WFBhdGg+PC9kczpUcmFuc2Zvcm0+PGRzOlRyYW5zZm9ybSBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMTAveG1sLWV4Yy1jMTRuIyIvPjwvZHM6VHJhbnNmb3Jtcz48ZHM6RGlnZXN0TWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8wNC94bWxlbmMjc2hhMjU2Ii8+PGRzOkRpZ2VzdFZhbHVlPlZXL21RM3RvbGYrWHZEcFVxWnphWWh3V1N4ZHU3dlFOWHdkMDdBWS8wOUU9PC9kczpEaWdlc3RWYWx1ZT48L2RzOlJlZmVyZW5jZT48ZHM6UmVmZXJlbmNlIFR5cGU9Imh0dHA6Ly91cmkuZXRzaS5vcmcvMDE5MDMjU2lnbmVkUHJvcGVydGllcyIgVVJJPSIjeGFkZXMtaWQtZGQ2N2MxNzA5OTFkZTEwYWEwNWY0YmY4Mjc5ZjYyNTgiPjxkczpUcmFuc2Zvcm1zPjxkczpUcmFuc2Zvcm0gQWxnb3JpdGhtPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzEwL3htbC1leGMtYzE0biMiLz48L2RzOlRyYW5zZm9ybXM+PGRzOkRpZ2VzdE1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZW5jI3NoYTI1NiIvPjxkczpEaWdlc3RWYWx1ZT5HcFA0QVpsb1NmWkZLZ2diNkJvR3p0OERLMy8zV0pkaFdTVkhKelVQdUwwPTwvZHM6RGlnZXN0VmFsdWU+PC9kczpSZWZlcmVuY2U+PC9kczpTaWduZWRJbmZvPjxkczpTaWduYXR1cmVWYWx1ZSBJZD0idmFsdWUtaWQtZGQ2N2MxNzA5OTFkZTEwYWEwNWY0YmY4Mjc5ZjYyNTgiPmdzczZOOG4rbFlHWTlpSThoQ2ZtYVFuZkpwOHRyMTJSUWNvYU05WnJlNk1GVXloYzZFdXp5bUdEb0FwTjR2TnNlV2VLT0N6VjViSkcrYzFmM2VzTE9BTkpZRzJvQTJIcjBwR0tqdjZMVHV5TnJ4SENDR0NPR2t0dDJDZmRFMXAxYmZHc0ZPVFlwOWkwOVVLNDh2OUVCSE1RdDVtZllzVkZoWGxGVFhObVdnTm9IeThjdWpBdnY2Mk95ZGVVczBJSkR3dTBkUlExYUlmWlZiQUUzQk1RQXRFWEg3OGpSUUlXblUyYjdBWDVMbm94Rzg0MmZvR3ZRN3ROdjZ6NElEWHVHM3h3T0lmY1ZCME1LUUJOeHlpZEVLa2lZenlnUGZoTXJZNFd2ZCtiTUdIdXVPVnVmUkYzTElLS3l4ZXVhYjlMa0lmNkFxTmFuVExvcG02L1JZdVkydz09PC9kczpTaWduYXR1cmVWYWx1ZT48ZHM6S2V5SW5mbz48ZHM6WDUwOURhdGE+PGRzOlg1MDlDZXJ0aWZpY2F0ZT5NSUlDNmpDQ0FkS2dBd0lCQWdJR0x0WVUxN3RYTUEwR0NTcUdTSWIzRFFFQkN3VUFNREF4R3pBWkJnTlZCQU1NRWxKdmIzUlRaV3htVTJsbmJtVmtSbUZyWlRFUk1BOEdBMVVFQ2d3SVJGTlRMWFJsYzNRd0hoY05NVGN3TmpBNE1URXlOakF4V2hjTk5EY3dOekEwTURjMU56STBXakFvTVJNd0VRWURWUVFEREFwVGFXZHVaWEpHWVd0bE1SRXdEd1lEVlFRS0RBaEVVMU10ZEdWemREQ0NBU0l3RFFZSktvWklodmNOQVFFQkJRQURnZ0VQQURDQ0FRb0NnZ0VCQU1JM2taaHRuaXBuK2lpWkhaOWF4OEZsZkU1T3cvY0Z3QlRmQUViM1IxWlFVcDYvQlFuQnQ3T28wSldCdGM5cWt2N0pVRGRjQkpYUFY1UVdTNUF5TVBIcHFRNzVIaXRqc3EvRnp1OGVIdGtLcEZpemN4R2E5Qlpka1FqaDRyU3J0TzFLanMwUmQ1RFF0V1Nna2VWQ0NOMDlrTjBac1owRU5ZK0lwOFF4U215enRzU3RrWVhkVUxxcHd6NEpFWFc5dno2NGVUYmRlNHZRSjZwakhHYXJKZjFnUU5FYzJYemhtSS9wclhMeXNXTnFDN2xaZzdQVVpVVHJkZWdBQlRVellDUkoxa1dCUlBtNHFvMExONDA1Yzk0UVFkNDVhNWtUZ293SHpFZ0xuQVFJMjh4ME0zQTU5VEtDK2llTmM2VkYxUHNUTHBVdzdQTkkyVnN0WDVqQXVhc0NBd0VBQWFNU01CQXdEZ1lEVlIwUEFRSC9CQVFEQWdFR01BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQ0s2TEdBMDFUUitybVU4cDZ5aEFpNE9rRE4yYjFkYklMOGw4aUNNWW9wTEN4eDh4cXEzdWJaQ094cWgxWDJqNnBnV3phcmIwYi9NVWl4MDBJb1V2TmJGT3hBVzdQQlpJS0RMbm02THNja1J4czFVMzJzQzlkMUxPSGUzV0tCTkI2R1pBTFQxZXdqaDdoU2JXamZ0bG1jb3ZxKzZlVkdBNWN2ZjJ1LzIrVGtLa3lIVi9OUjM5NG5YcmRzZHB2eWd3eXBFdFhqZXR6RDdVVDkzTnV3M3hjVjhWSWZ0SXZIZjlMalU3aCtVakdtS1hHOWMxNWVZcjNTelVtdjZreU9JMEJ2dzE0UFd0c1dHbDBRZE9TUnZJQkJyUDRhZENuR1RnamdqazlMVGNPOEI4Rktycis4bEhHdWMwYnA0bElVVG9pVWtHSUxYc2lFZUVnOVdBcW0rWHFPPC9kczpYNTA5Q2VydGlmaWNhdGU+PC9kczpYNTA5RGF0YT48L2RzOktleUluZm8+PGRzOk9iamVjdD48eGFkZXM6UXVhbGlmeWluZ1Byb3BlcnRpZXMgeG1sbnM6eGFkZXM9Imh0dHA6Ly91cmkuZXRzaS5vcmcvMDE5MDMvdjEuMy4yIyIgVGFyZ2V0PSIjaWQtZGQ2N2MxNzA5OTFkZTEwYWEwNWY0YmY4Mjc5ZjYyNTgiPjx4YWRlczpTaWduZWRQcm9wZXJ0aWVzIElkPSJ4YWRlcy1pZC1kZDY3YzE3MDk5MWRlMTBhYTA1ZjRiZjgyNzlmNjI1OCI+PHhhZGVzOlNpZ25lZFNpZ25hdHVyZVByb3BlcnRpZXM+PHhhZGVzOlNpZ25pbmdUaW1lPjIwMTgtMTEtMjFUMDk6NTU6MDdaPC94YWRlczpTaWduaW5nVGltZT48eGFkZXM6U2lnbmluZ0NlcnRpZmljYXRlVjI+PHhhZGVzOkNlcnQ+PHhhZGVzOkNlcnREaWdlc3Q+PGRzOkRpZ2VzdE1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZW5jI3NoYTUxMiIvPjxkczpEaWdlc3RWYWx1ZT4xNHdNakRGemZzcWtkWlVzblBIMC9oK1pvOHJ6OERFd2lNcTJZTzF3TlRmcGxMM3drUTdFMGwyeVpQWWRlcUdLOVN4Q1RsenAxMVJORVVlTEtNc0NlUT09PC9kczpEaWdlc3RWYWx1ZT48L3hhZGVzOkNlcnREaWdlc3Q+PHhhZGVzOklzc3VlclNlcmlhbFYyPk1ENHdOS1F5TURBeEd6QVpCZ05WQkFNTUVsSnZiM1JUWld4bVUybG5ibVZrUm1GclpURVJNQThHQTFVRUNnd0lSRk5UTFhSbGMzUUNCaTdXRk5lN1Z3PT08L3hhZGVzOklzc3VlclNlcmlhbFYyPjwveGFkZXM6Q2VydD48L3hhZGVzOlNpZ25pbmdDZXJ0aWZpY2F0ZVYyPjx4YWRlczpTaWduYXR1cmVQb2xpY3lJZGVudGlmaWVyPjx4YWRlczpTaWduYXR1cmVQb2xpY3lJbXBsaWVkLz48L3hhZGVzOlNpZ25hdHVyZVBvbGljeUlkZW50aWZpZXI+PC94YWRlczpTaWduZWRTaWduYXR1cmVQcm9wZXJ0aWVzPjx4YWRlczpTaWduZWREYXRhT2JqZWN0UHJvcGVydGllcz48eGFkZXM6RGF0YU9iamVjdEZvcm1hdCBPYmplY3RSZWZlcmVuY2U9IiNyLWlkLWRkNjdjMTcwOTkxZGUxMGFhMDVmNGJmODI3OWY2MjU4LTEiPjx4YWRlczpNaW1lVHlwZT50ZXh0L3htbDwveGFkZXM6TWltZVR5cGU+PC94YWRlczpEYXRhT2JqZWN0Rm9ybWF0PjwveGFkZXM6U2lnbmVkRGF0YU9iamVjdFByb3BlcnRpZXM+PC94YWRlczpTaWduZWRQcm9wZXJ0aWVzPjx4YWRlczpVbnNpZ25lZFByb3BlcnRpZXM+PHhhZGVzOlVuc2lnbmVkU2lnbmF0dXJlUHJvcGVydGllcz48eGFkZXM6U2lnbmF0dXJlVGltZVN0YW1wIElkPSJUUy0yYjc1MTNkMC00Y2RhLTRiODQtYWUxMC01MzQ2NGYzYjg0NzMiPjxkczpDYW5vbmljYWxpemF0aW9uTWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8xMC94bWwtZXhjLWMxNG4jIi8+PHhhZGVzOkVuY2Fwc3VsYXRlZFRpbWVTdGFtcCBJZD0iRVRTLTJiNzUxM2QwLTRjZGEtNGI4NC1hZTEwLTUzNDY0ZjNiODQ3MyI+TUlJR2NBWUpLb1pJaHZjTkFRY0NvSUlHWVRDQ0JsMENBUU14RHpBTkJnbGdoa2dCWlFNRUFnRUZBREJ5QmdzcWhraUc5dzBCQ1JBQkJLQmpCR0V3WHdJQkFRWURLZ01FTURFd0RRWUpZSVpJQVdVREJBSUJCUUFFSUczeHJoU3E0OGdLbWdtVjBZTHhnY2pONnFMcHZNa05sRHJVZWFWdk9HbnFBaEVBN21rcm9RZ2RmOCt6NG5NalFyZ0RNQmdQTWpBeU1EQXpNak14TWpNM01USmFvSUlEY2pDQ0EyNHdnZ0pXb0FNQ0FRSUNBV1F3RFFZSktvWklodmNOQVFFTEJRQXdWVEVZTUJZR0ExVUVBd3dQYzJWc1ppMXphV2R1WldRdGRITmhNUmt3RndZRFZRUUtEQkJPYjNkcGJtRWdVMjlzZFhScGIyNXpNUkV3RHdZRFZRUUxEQWhRUzBrdFZFVlRWREVMTUFrR0ExVUVCaE1DVEZVd0hoY05NVGt3TWpJNE1EVXpNVEF4V2hjTk1qQXhNakk1TURVek1UQXhXakJWTVJnd0ZnWURWUVFEREE5elpXeG1MWE5wWjI1bFpDMTBjMkV4R1RBWEJnTlZCQW9NRUU1dmQybHVZU0JUYjJ4MWRHbHZibk14RVRBUEJnTlZCQXNNQ0ZCTFNTMVVSVk5VTVFzd0NRWURWUVFHRXdKTVZUQ0NBU0l3RFFZSktvWklodmNOQVFFQkJRQURnZ0VQQURDQ0FRb0NnZ0VCQUtNcWlDTFpCZFd6Q0JSUjNKQS9lRlBqM2VMNnMwbFYzNmJIdU9OTkVSSFBMcnBIcU9MbTc4bnRlWDN6TkZPVHNOWVhsWGlJTjdtT1BlUlYzZ0tDTGt3RVlsRjI5VjkwblB3V3lQZVVwd0JlclpFc08rUEszRGlWMG5VSXErVXlFZUpvNFVFWnYydmRhTDRSRnNyek10dnpNWks2MUxUUjFQRDNraWF0UGU4YmZOdEVwZkNuVlVSa2xJOHNFU1F1czh6em5VTjg2TzYyZEZ0QXdtcWc0NzBsbHNxUFVGSWlWU0cxNm1wNGJCMGsrSjhiWGMwSGR4Y3lkRWRhQVM0UEVqNUp1MFZCdUZiRjBlSHhmSWU0bHptaEkyZFNRbEVPRkFFRXRHdElmbktBRkYremlVTDVEUFRqQm1xTkRUL2tvYVNHYSsvWkF6RFV4SEloUDFCaWVXTUNBd0VBQWFOSk1FY3dEZ1lEVlIwUEFRSC9CQVFEQWdlQU1CWUdBMVVkSlFFQi93UU1NQW9HQ0NzR0FRVUZCd01JTUIwR0ExVWREZ1FXQkJTSlFpdlpuOUZQM1hFYkw3Q2dUTTFLbTZmK3hqQU5CZ2txaGtpRzl3MEJBUXNGQUFPQ0FRRUFmVW5MMXZDeHZnMHJEQzNlZS96eWRwYWdMWnJRWk5qZzNtOXJ5NTc1cVJWbSs5Yndwd05DYkdES2dyQVU0WXY2bmFSU1RQcngwZjBQNTBFTFhuQ29nbzlKbEo1ZkU3U1FJVkxEeW83bXl0cnRpSFpoM0lVVXY1cUdjRmthN1R1bWdXcFBUNnhFby9ONTV1L1pnTjYxSmF2SXQ3dHdCd0lrazlPYXBVQkVQU2c4TGFCSVg3Z1RVSlAvcjlZQmNyTElCVEZQWFFWOHh1NDEvSC9xRDdra3BGOS9VYVQyMld2Ris2b2dEVkRiZzBYdkV0MTR1aG43SkhqNFI1c2VMd3FTVTRnTExhTHBmajMzdU1wNXF4amo4VElqWGZSaUhtSWlRRWRSR2QvbzNEQlhiV1FaWVRTeklnakJhY0dMTkxuTk1DeW8xMmxTanFzWXYzWGMwVVdNVXpHQ0Fsc3dnZ0pYQWdFQk1Gb3dWVEVZTUJZR0ExVUVBd3dQYzJWc1ppMXphV2R1WldRdGRITmhNUmt3RndZRFZRUUtEQkJPYjNkcGJtRWdVMjlzZFhScGIyNXpNUkV3RHdZRFZRUUxEQWhRUzBrdFZFVlRWREVMTUFrR0ExVUVCaE1DVEZVQ0FXUXdEUVlKWUlaSUFXVURCQUlCQlFDZ2dkTXdHZ1lKS29aSWh2Y05BUWtETVEwR0N5cUdTSWIzRFFFSkVBRUVNQndHQ1NxR1NJYjNEUUVKQlRFUEZ3MHlNREF6TWpNeE1qTTNNVEphTUMwR0NTcUdTSWIzRFFFSk5ERWdNQjR3RFFZSllJWklBV1VEQkFJQkJRQ2hEUVlKS29aSWh2Y05BUUVMQlFBd0x3WUpLb1pJaHZjTkFRa0VNU0lFSUp4Q1dQZXV4RGxUV1pFMmRZbW1valNyNG1vUTlPS3NrTmd1eVVXS1ZyanBNRGNHQ3lxR1NJYjNEUUVKRUFJdk1TZ3dKakFrTUNJRUlHLy9vTGxtWExveHlOMWZ1NWNLVUVjcDN6ZFd2bkhGMG9mTWxBOEdRampBTUEwR0NTcUdTSWIzRFFFQkN3VUFCSUlCQUZEVkt5VGxOTlBPaXJsdW5xdndETjg0MXlGdENrRC9hYjJtbDNvTmQrR0FmbENZdXdSakdXSWxNWWNFaDVzejdQUHFoNjFyQ3ltQkZzNjVURU5Bamd5TXBiUE9BNUkrL0JjK3dOWkMwUURxYTJITVBsL29oeGhvQXdJbUQvZWU1dDlwMlovZXhJS2l3WnUxR09HUkppbzdCOHhPdlBzRXJqTmFHaEswTkhGd1hBVlpyZ2tYdTRZWFh2ekR0dy92N1l2RUkxZlJmZEpXREtrZUs5SGVSdEFnSGFYTVBWcjFZRUZlWFhUM2M4azV3aFBnenFKdDViV1FXQ3gvNlRJbmxFWE5hT2ZMVm9ITXQ1SUgwNU1HRTlIVzA5amRqd25abXZobEdWYnFZWjJFNkVoS0hhaW8rZWNhVmtOdGxHdmk4QWtBRVlraWd2bW50ektqSWg0eHB4QT08L3hhZGVzOkVuY2Fwc3VsYXRlZFRpbWVTdGFtcD48L3hhZGVzOlNpZ25hdHVyZVRpbWVTdGFtcD48L3hhZGVzOlVuc2lnbmVkU2lnbmF0dXJlUHJvcGVydGllcz48L3hhZGVzOlVuc2lnbmVkUHJvcGVydGllcz48L3hhZGVzOlF1YWxpZnlpbmdQcm9wZXJ0aWVzPjwvZHM6T2JqZWN0PjwvZHM6U2lnbmF0dXJlPjwvbm90ZT4=\",\r\n    \"digestAlgorithm\" : null,\r\n    \"name\" : \"RemoteDocument-signed-xades-baseline-t.xml\"\r\n  },\r\n  \"policy\" : null,\r\n  \"signatureId\" : null\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/services/rest/validation/validateSignature",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"services",
+						"rest",
+						"validation",
+						"validateSignature"
+					]
+				},
+				"description": "Validates a signed document"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
