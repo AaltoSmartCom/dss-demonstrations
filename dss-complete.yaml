@@ -1,0 +1,4149 @@
+openapi: 3.0.1
+info:
+  version: "5.6"
+  title: "DSS WebServices complete"
+  description: "Complete openapi documentation for DSS REST-application services. Different services use different URLs which are listed under servers."
+  contact:
+    name: "DSS Project"
+    url: "https://github.com/esig/dss"
+  license:
+    name: "Apache 2.0 License"
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  - url: 'http://localhost:8080/services/rest/server-signing'
+  - url: 'http://localhost:8080/services/rest/signature/one-document'
+  - url: 'http://localhost:8080/services/rest/signature/multiple-documents'
+  - url: 'http://localhost:8080/services/rest/validation'
+  - url: 'http://localhost:8080/services/rest/certificate-validation'
+  - url: 'http://localhost:8080/services/rest/timestamp-service'
+tags:
+- name: "server-signing"
+- name: "one-document / multiple-documents"
+- name: "validation"
+- name: "certificate-validation"
+- name: "timestamp-service"
+paths:
+  /validateSignature:
+    post:
+      tags:
+      - "validation"
+      operationId: validateSignature
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataToValidateDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WSReportsDTO'
+  /getOriginalDocuments:
+    post:
+      tags:
+      - "validation"
+      operationId: getOriginalDocuments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataToValidateDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RemoteDocument'
+  /getTimestampResponse:
+    post:
+      tags:
+      - "timestamp-service"
+      operationId: getTimestampResponse
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DigestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimestampResponseDTO'
+  '/sign-digest/{alias}/{mask}':
+    post:
+      tags:
+      - "server-signing"
+      operationId: signDigest
+      parameters:
+        - name: mask
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - MGF1
+        - name: alias
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DigestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignatureValueDTO'
+  '/sign-digest/{alias}':
+    post:
+      tags:
+      - "server-signing"
+      operationId: signDigest_1
+      parameters:
+        - name: alias
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DigestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignatureValueDTO'
+  /keys:
+    get:
+      tags:
+      - "server-signing"
+      operationId: getKeys
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RemoteKeyEntry'
+  '/sign/{alias}/{algo}':
+    post:
+      tags:
+      - "server-signing"
+      operationId: sign
+      parameters:
+        - name: algo
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - SHA1
+              - SHA224
+              - SHA256
+              - SHA384
+              - SHA512
+              - SHA3_224
+              - SHA3_256
+              - SHA3_384
+              - SHA3_512
+              - RIPEMD160
+              - MD2
+              - MD5
+              - WHIRLPOOL
+        - name: alias
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToBeSignedDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignatureValueDTO'
+  '/sign/{alias}/{digest-algo}/{mask}':
+    post:
+      tags:
+      - "server-signing"
+      operationId: sign_1
+      parameters:
+        - name: digest-algo
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - SHA1
+              - SHA224
+              - SHA256
+              - SHA384
+              - SHA512
+              - SHA3_224
+              - SHA3_256
+              - SHA3_384
+              - SHA3_512
+              - RIPEMD160
+              - MD2
+              - MD5
+              - WHIRLPOOL
+        - name: mask
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - MGF1
+        - name: alias
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToBeSignedDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignatureValueDTO'
+  '/key/{alias}':
+    get:
+      tags:
+      - "server-signing"
+      operationId: getKey
+      parameters:
+        - name: alias
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemoteKeyEntry'
+  /signDocument:
+    post:
+      tags:
+      - "one-document / multiple-documents"
+      operationId: signDocument_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignMultipleDocumentDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemoteDocument'
+  /extendDocument:
+    post:
+      tags:
+      - "one-document / multiple-documents"
+      operationId: extendDocument_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExtendDocumentDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemoteDocument'
+  /timestampDocument:
+    post:
+      tags:
+      - "one-document / multiple-documents"
+      operationId: timestampDocuments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TimestampMultipleDocumentDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemoteDocument'
+  /getDataToSign:
+    post:
+      tags:
+      - "one-document / multiple-documents"
+      operationId: getDataToSign
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataToSignOneDocumentDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToBeSignedDTO'
+  /getDataToSignMultiple:
+    post:
+      tags:
+      - "one-document / multiple-documents"
+      operationId: getDataToSign_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataToSignMultipleDocumentsDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToBeSignedDTO'
+  /validateCertificate:
+    post:
+      tags:
+      - "certificate-validation"
+      operationId: validateCertificate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertificateToValidateDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateReportsDTO'
+components:
+  schemas:
+    AdditionalValidationReportDataType:
+      required:
+        - reportData
+      type: object
+      properties:
+        reportData:
+          type: array
+          xml:
+            name: ReportData
+          items:
+            $ref: '#/components/schemas/TypedDataType'
+    AddressType:
+      type: object
+      properties:
+        postalAddresses:
+          $ref: '#/components/schemas/PostalAddressListType'
+        electronicAddress:
+          $ref: '#/components/schemas/ElectronicAddressType'
+    AnyType:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+    CanonicalizationMethodType:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+        algorithm:
+          type: string
+          xml:
+            name: Algorithm
+            attribute: true
+    CertificateChainType:
+      type: object
+      properties:
+        signingCertificate:
+          $ref: '#/components/schemas/VOReferenceType'
+        intermediateCertificate:
+          type: array
+          xml:
+            name: IntermediateCertificate
+          items:
+            $ref: '#/components/schemas/VOReferenceType'
+        trustAnchor:
+          $ref: '#/components/schemas/VOReferenceType'
+    ConstraintStatusType:
+      required:
+        - status
+      type: object
+      properties:
+        status:
+          type: string
+          xml:
+            name: Status
+          enum:
+            - APPLIED
+            - DISABLED
+            - OVERRIDDEN
+        overriddenBy:
+          type: string
+          xml:
+            name: OverriddenBy
+    CryptoInformationType:
+      required:
+        - algorithm
+      type: object
+      properties:
+        validationObjectId:
+          $ref: '#/components/schemas/VOReferenceType'
+        algorithm:
+          type: string
+          xml:
+            name: Algorithm
+        algorithmParameters:
+          $ref: '#/components/schemas/TypedDataType'
+        secureAlgorithm:
+          type: boolean
+          xml:
+            name: SecureAlgorithm
+        notAfter:
+          type: string
+          format: date-time
+          xml:
+            name: NotAfter
+    DigestAlgAndValueType:
+      required:
+        - digestValue
+      type: object
+      properties:
+        digestMethod:
+          $ref: '#/components/schemas/DigestMethodType'
+        digestValue:
+          type: array
+          xml:
+            name: DigestValue
+            namespace: 'http://www.w3.org/2000/09/xmldsig#'
+          items:
+            type: string
+            format: byte
+            xml:
+              name: DigestValue
+    DigestMethodType:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+        algorithm:
+          type: string
+          xml:
+            name: Algorithm
+            attribute: true
+    DigitalIdentityType:
+      type: object
+      properties:
+        x509Certificate:
+          type: array
+          xml:
+            name: X509Certificate
+          items:
+            type: string
+            format: byte
+            xml:
+              name: X509Certificate
+        x509SubjectName:
+          type: string
+          xml:
+            name: X509SubjectName
+        keyValue:
+          $ref: '#/components/schemas/KeyValueType'
+        x509SKI:
+          type: array
+          xml:
+            name: X509SKI
+          items:
+            type: string
+            format: byte
+            xml:
+              name: X509SKI
+        other:
+          $ref: '#/components/schemas/AnyType'
+    DocumentationReferencesType:
+      required:
+        - documentationReference
+      type: object
+      properties:
+        documentationReference:
+          type: array
+          xml:
+            name: DocumentationReference
+          items:
+            type: string
+            xml:
+              name: DocumentationReference
+    ElectronicAddressType:
+      required:
+        - uri
+      type: object
+      properties:
+        uri:
+          type: array
+          xml:
+            name: URI
+          items:
+            $ref: '#/components/schemas/NonEmptyMultiLangURIType'
+    ExtensionType:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+        critical:
+          type: boolean
+          xml:
+            name: Critical
+            attribute: true
+    ExtensionsListType:
+      required:
+        - extension
+      type: object
+      properties:
+        extension:
+          type: array
+          xml:
+            name: Extension
+          items:
+            $ref: '#/components/schemas/ExtensionType'
+    IdentifierType:
+      type: object
+      properties:
+        value:
+          type: string
+        qualifier:
+          type: string
+          xml:
+            name: Qualifier
+            attribute: true
+          enum:
+            - OID_AS_URI
+            - OID_AS_URN
+    IndividualValidationConstraintReportType:
+      required:
+        - validationConstraintIdentifier
+      type: object
+      properties:
+        validationConstraintIdentifier:
+          type: string
+          xml:
+            name: ValidationConstraintIdentifier
+        validationConstraintParameter:
+          type: array
+          xml:
+            name: ValidationConstraintParameter
+          items:
+            $ref: '#/components/schemas/TypedDataType'
+        constraintStatus:
+          $ref: '#/components/schemas/ConstraintStatusType'
+        validationStatus:
+          $ref: '#/components/schemas/ValidationStatusType'
+        indications:
+          type: object
+          xml:
+            name: Indications
+    InternationalNamesType:
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: array
+          xml:
+            name: Name
+          items:
+            $ref: '#/components/schemas/MultiLangNormStringType'
+    KeyInfoType:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+        id:
+          type: string
+          xml:
+            name: Id
+            attribute: true
+    KeyValueType:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+    MultiLangNormStringType:
+      type: object
+      properties:
+        value:
+          type: string
+        lang:
+          type: string
+          xml:
+            namespace: 'http://www.w3.org/XML/1998/namespace'
+            attribute: true
+    NonEmptyMultiLangURIListType:
+      required:
+        - uri
+      type: object
+      properties:
+        uri:
+          type: array
+          xml:
+            name: URI
+          items:
+            $ref: '#/components/schemas/NonEmptyMultiLangURIType'
+    NonEmptyMultiLangURIType:
+      type: object
+      properties:
+        value:
+          type: string
+        lang:
+          type: string
+          xml:
+            namespace: 'http://www.w3.org/XML/1998/namespace'
+            attribute: true
+    NsPrefixMappingType:
+      required:
+        - namespacePrefix
+        - namespaceURI
+      type: object
+      properties:
+        namespaceURI:
+          type: string
+          xml:
+            name: NamespaceURI
+        namespacePrefix:
+          type: string
+          xml:
+            name: NamespacePrefix
+    ObjectIdentifierType:
+      type: object
+      properties:
+        identifier:
+          $ref: '#/components/schemas/IdentifierType'
+        description:
+          type: string
+          xml:
+            name: Description
+        documentationReferences:
+          $ref: '#/components/schemas/DocumentationReferencesType'
+    ObjectType:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+        id:
+          type: string
+          xml:
+            name: Id
+            attribute: true
+        mimeType:
+          type: string
+          xml:
+            name: MimeType
+            attribute: true
+        encoding:
+          type: string
+          xml:
+            name: Encoding
+            attribute: true
+    POEProvisioningType:
+      type: object
+      properties:
+        validationObject:
+          type: array
+          xml:
+            name: ValidationObject
+          items:
+            $ref: '#/components/schemas/VOReferenceType'
+        signatureReference:
+          type: array
+          xml:
+            name: SignatureReference
+          items:
+            $ref: '#/components/schemas/SignatureReferenceType'
+        poetime:
+          type: string
+          format: date-time
+    POEType:
+      required:
+        - typeOfProof
+      type: object
+      properties:
+        typeOfProof:
+          type: string
+          xml:
+            name: TypeOfProof
+          enum:
+            - VALIDATION
+            - PROVIDED
+            - POLICY
+        poetime:
+          type: string
+          format: date-time
+        poeobject:
+          $ref: '#/components/schemas/VOReferenceType'
+    PostalAddressListType:
+      required:
+        - postalAddress
+      type: object
+      properties:
+        postalAddress:
+          type: array
+          xml:
+            name: PostalAddress
+          items:
+            $ref: '#/components/schemas/PostalAddressType'
+    PostalAddressType:
+      required:
+        - countryName
+        - locality
+        - streetAddress
+      type: object
+      properties:
+        streetAddress:
+          type: string
+          xml:
+            name: StreetAddress
+        locality:
+          type: string
+          xml:
+            name: Locality
+        stateOrProvince:
+          type: string
+          xml:
+            name: StateOrProvince
+        postalCode:
+          type: string
+          xml:
+            name: PostalCode
+        countryName:
+          type: string
+          xml:
+            name: CountryName
+        lang:
+          type: string
+          xml:
+            namespace: 'http://www.w3.org/XML/1998/namespace'
+            attribute: true
+    ReferenceType:
+      required:
+        - digestValue
+      type: object
+      properties:
+        transforms:
+          $ref: '#/components/schemas/TransformsType'
+        digestMethod:
+          $ref: '#/components/schemas/DigestMethodType'
+        digestValue:
+          type: array
+          xml:
+            name: DigestValue
+          items:
+            type: string
+            format: byte
+            xml:
+              name: X509SKI
+        id:
+          type: string
+          xml:
+            name: Id
+            attribute: true
+        uri:
+          type: string
+          xml:
+            name: URI
+            attribute: true
+        type:
+          type: string
+          xml:
+            name: Type
+            attribute: true
+    RevocationStatusInformationType:
+      required:
+        - revocationTime
+      type: object
+      properties:
+        validationObjectId:
+          $ref: '#/components/schemas/VOReferenceType'
+        revocationTime:
+          type: string
+          format: date-time
+          xml:
+            name: RevocationTime
+        revocationReason:
+          type: string
+          xml:
+            name: RevocationReason
+          enum:
+            - UNSPECIFIED
+            - KEY_COMPROMISE
+            - CA_COMPROMISE
+            - AFFILIATION_CHANGED
+            - SUPERSEDED
+            - CESSATION_OF_OPERATION
+            - CERTIFICATE_HOLD
+            - REMOVE_FROM_CRL
+            - PRIVILEGE_WITHDRAWN
+            - AA_COMPROMISE
+        revocationObject:
+          $ref: '#/components/schemas/VOReferenceType'
+    SigPolicyQualifiersListType:
+      required:
+        - sigPolicyQualifier
+      type: object
+      properties:
+        sigPolicyQualifier:
+          type: array
+          xml:
+            name: SigPolicyQualifier
+          items:
+            $ref: '#/components/schemas/AnyType'
+    SignatureAttributesType:
+      type: object
+      properties:
+        signingTimeOrSigningCertificateOrDataObjectFormat:
+          type: array
+          items:
+            type: object
+    SignatureIdentifierType:
+      type: object
+      properties:
+        digestAlgAndValue:
+          $ref: '#/components/schemas/DigestAlgAndValueType'
+        signatureValue:
+          $ref: '#/components/schemas/SignatureValueType'
+        hashOnly:
+          type: boolean
+          xml:
+            name: HashOnly
+        docHashOnly:
+          type: boolean
+          xml:
+            name: DocHashOnly
+        id:
+          type: string
+          xml:
+            attribute: true
+        daidentifier:
+          type: string
+    SignatureMethodType:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+        algorithm:
+          type: string
+          xml:
+            name: Algorithm
+            attribute: true
+    SignaturePolicyIdType:
+      type: object
+      properties:
+        sigPolicyId:
+          $ref: '#/components/schemas/ObjectIdentifierType'
+        transforms:
+          $ref: '#/components/schemas/TransformsType'
+        sigPolicyHash:
+          $ref: '#/components/schemas/DigestAlgAndValueType'
+        sigPolicyQualifiers:
+          $ref: '#/components/schemas/SigPolicyQualifiersListType'
+    SignaturePolicyIdentifierType:
+      type: object
+      properties:
+        signaturePolicyId:
+          $ref: '#/components/schemas/SignaturePolicyIdType'
+        signaturePolicyImplied:
+          type: object
+          xml:
+            name: SignaturePolicyImplied
+    SignatureQualityType:
+      required:
+        - signatureQualityInformation
+      type: object
+      properties:
+        signatureQualityInformation:
+          type: array
+          xml:
+            name: SignatureQualityInformation
+          items:
+            type: string
+            xml:
+              name: SignatureQualityInformation
+    SignatureReferenceType:
+      type: object
+      properties:
+        canonicalizationMethod:
+          type: string
+          xml:
+            name: CanonicalizationMethod
+        digestMethod:
+          type: string
+          xml:
+            name: DigestMethod
+        digestValue:
+          type: array
+          xml:
+            name: DigestValue
+          items:
+            type: string
+            format: byte
+            xml:
+              name: DigestValue
+        xadESSignaturePtr:
+          $ref: '#/components/schemas/XAdESSignaturePtrType'
+        padESFieldName:
+          type: string
+    SignatureType:
+      type: object
+      properties:
+        signedInfo:
+          $ref: '#/components/schemas/SignedInfoType'
+        signatureValue:
+          $ref: '#/components/schemas/SignatureValueType'
+        keyInfo:
+          $ref: '#/components/schemas/KeyInfoType'
+        object:
+          type: array
+          xml:
+            name: Object
+          items:
+            $ref: '#/components/schemas/ObjectType'
+        id:
+          type: string
+          xml:
+            name: Id
+            attribute: true
+    SignatureValidationPolicyType:
+      type: object
+      properties:
+        signaturePolicyIdentifier:
+          $ref: '#/components/schemas/SignaturePolicyIdentifierType'
+        policyName:
+          type: string
+          xml:
+            name: PolicyName
+        formalPolicyURI:
+          type: string
+          xml:
+            name: FormalPolicyURI
+        readablePolicyURI:
+          type: string
+          xml:
+            name: ReadablePolicyURI
+        formalPolicyObject:
+          $ref: '#/components/schemas/VOReferenceType'
+    SignatureValidationProcessType:
+      type: object
+      properties:
+        signatureValidationProcessID:
+          type: string
+          xml:
+            name: SignatureValidationProcessID
+          enum:
+            - BASIC
+            - LTVM
+            - LTA
+        signatureValidationServicePolicy:
+          type: string
+          xml:
+            name: SignatureValidationServicePolicy
+        signatureValidationPracticeStatement:
+          type: string
+          xml:
+            name: SignatureValidationPracticeStatement
+        any:
+          type: object
+    SignatureValidationReportType:
+      type: object
+      properties:
+        signatureIdentifier:
+          $ref: '#/components/schemas/SignatureIdentifierType'
+        validationConstraintsEvaluationReport:
+          $ref: '#/components/schemas/ValidationConstraintsEvaluationReportType'
+        validationTimeInfo:
+          $ref: '#/components/schemas/ValidationTimeInfoType'
+        signersDocument:
+          type: array
+          xml:
+            name: SignersDocument
+          items:
+            $ref: '#/components/schemas/SignersDocumentType'
+        signatureAttributes:
+          $ref: '#/components/schemas/SignatureAttributesType'
+        signerInformation:
+          $ref: '#/components/schemas/SignerInformationType'
+        signatureQuality:
+          $ref: '#/components/schemas/SignatureQualityType'
+        signatureValidationProcess:
+          $ref: '#/components/schemas/SignatureValidationProcessType'
+        signatureValidationStatus:
+          $ref: '#/components/schemas/ValidationStatusType'
+        any:
+          type: array
+          items:
+            type: object
+    SignatureValidatorType:
+      required:
+        - digitalId
+      type: object
+      properties:
+        digitalId:
+          type: array
+          xml:
+            name: DigitalId
+          items:
+            $ref: '#/components/schemas/DigitalIdentityType'
+        tspinformation:
+          $ref: '#/components/schemas/TSPInformationType'
+    SignatureValueType:
+      type: object
+      properties:
+        value:
+          type: array
+          items:
+            type: string
+            format: byte
+            xml:
+              name: X509SKI
+        id:
+          type: string
+          xml:
+            name: Id
+            attribute: true
+    SignedInfoType:
+      required:
+        - reference
+      type: object
+      properties:
+        canonicalizationMethod:
+          $ref: '#/components/schemas/CanonicalizationMethodType'
+        signatureMethod:
+          $ref: '#/components/schemas/SignatureMethodType'
+        reference:
+          type: array
+          xml:
+            name: Reference
+          items:
+            $ref: '#/components/schemas/ReferenceType'
+        id:
+          type: string
+          xml:
+            name: Id
+            attribute: true
+    SignerInformationType:
+      type: object
+      properties:
+        signerCertificate:
+          $ref: '#/components/schemas/VOReferenceType'
+        signer:
+          type: string
+          xml:
+            name: Signer
+        any:
+          type: object
+        pseudonym:
+          type: boolean
+          xml:
+            name: Pseudonym
+            attribute: true
+    SignersDocumentType:
+      type: object
+      properties:
+        digestAlgAndValue:
+          $ref: '#/components/schemas/DigestAlgAndValueType'
+        signersDocumentRef:
+          $ref: '#/components/schemas/VOReferenceType'
+    TSPInformationType:
+      type: object
+      properties:
+        tsptradeName:
+          $ref: '#/components/schemas/InternationalNamesType'
+        tspaddress:
+          $ref: '#/components/schemas/AddressType'
+        tspinformationURI:
+          $ref: '#/components/schemas/NonEmptyMultiLangURIListType'
+        tspinformationExtensions:
+          $ref: '#/components/schemas/ExtensionsListType'
+        tspname:
+          $ref: '#/components/schemas/InternationalNamesType'
+    TransformType:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+        algorithm:
+          type: string
+          xml:
+            name: Algorithm
+            attribute: true
+    TransformsType:
+      required:
+        - transform
+      type: object
+      properties:
+        transform:
+          type: array
+          xml:
+            name: Transform
+          items:
+            $ref: '#/components/schemas/TransformType'
+    TypedDataType:
+      required:
+        - type
+        - value
+      type: object
+      properties:
+        type:
+          type: string
+          xml:
+            name: Type
+        value:
+          type: object
+          xml:
+            name: Value
+    VOReferenceType:
+      type: object
+      properties:
+        any:
+          type: object
+        voreference:
+          type: array
+          items:
+            type: object
+    ValidationConstraintsEvaluationReportType:
+      type: object
+      properties:
+        signatureValidationPolicy:
+          $ref: '#/components/schemas/SignatureValidationPolicyType'
+        validationConstraint:
+          type: array
+          xml:
+            name: ValidationConstraint
+          items:
+            $ref: '#/components/schemas/IndividualValidationConstraintReportType'
+    ValidationObjectListType:
+      required:
+        - validationObject
+      type: object
+      properties:
+        validationObject:
+          type: array
+          xml:
+            name: ValidationObject
+          items:
+            $ref: '#/components/schemas/ValidationObjectType'
+    ValidationObjectRepresentationType:
+      type: object
+      properties:
+        direct:
+          type: object
+        base64:
+          type: array
+          items:
+            type: string
+            format: byte
+            xml:
+              name: DigestValue
+        digestAlgAndValue:
+          $ref: '#/components/schemas/DigestAlgAndValueType'
+        uri:
+          type: string
+          xml:
+            name: URI
+    ValidationObjectType:
+      required:
+        - objectType
+      type: object
+      properties:
+        objectType:
+          type: string
+          xml:
+            name: ObjectType
+          enum:
+            - CERTIFICATE
+            - CRL
+            - OCSP_RESPONSE
+            - TIMESTAMP
+            - EVIDENCE_RECORD
+            - PUBLIC_KEY
+            - SIGNED_DATA
+            - OTHER
+        validationObjectRepresentation:
+          $ref: '#/components/schemas/ValidationObjectRepresentationType'
+        poe:
+          $ref: '#/components/schemas/POEType'
+        validationReport:
+          $ref: '#/components/schemas/SignatureValidationReportType'
+        id:
+          type: string
+          xml:
+            attribute: true
+        poeprovisioning:
+          $ref: '#/components/schemas/POEProvisioningType'
+    ValidationReportDataType:
+      type: object
+      properties:
+        trustAnchor:
+          $ref: '#/components/schemas/VOReferenceType'
+        certificateChain:
+          $ref: '#/components/schemas/CertificateChainType'
+        relatedValidationObject:
+          type: array
+          xml:
+            name: RelatedValidationObject
+          items:
+            $ref: '#/components/schemas/VOReferenceType'
+        revocationStatusInformation:
+          $ref: '#/components/schemas/RevocationStatusInformationType'
+        cryptoInformation:
+          $ref: '#/components/schemas/CryptoInformationType'
+        additionalValidationReportData:
+          $ref: '#/components/schemas/AdditionalValidationReportDataType'
+    ValidationReportType:
+      required:
+        - signatureValidationReport
+      type: object
+      properties:
+        signatureValidationReport:
+          type: array
+          xml:
+            name: SignatureValidationReport
+          items:
+            $ref: '#/components/schemas/SignatureValidationReportType'
+        signatureValidationObjects:
+          $ref: '#/components/schemas/ValidationObjectListType'
+        signatureValidator:
+          $ref: '#/components/schemas/SignatureValidatorType'
+        signature:
+          $ref: '#/components/schemas/SignatureType'
+    ValidationStatusType:
+      required:
+        - mainIndication
+      type: object
+      properties:
+        mainIndication:
+          type: string
+          xml:
+            name: MainIndication
+          enum:
+            - TOTAL_PASSED
+            - TOTAL_FAILED
+            - INDETERMINATE
+            - PASSED
+            - FAILED
+            - NO_SIGNATURE_FOUND
+        subIndication:
+          type: array
+          xml:
+            name: SubIndication
+          items:
+            type: string
+            xml:
+              name: SubIndication
+            enum:
+              - FORMAT_FAILURE
+              - HASH_FAILURE
+              - SIG_CRYPTO_FAILURE
+              - REVOKED
+              - SIG_CONSTRAINTS_FAILURE
+              - CHAIN_CONSTRAINTS_FAILURE
+              - CERTIFICATE_CHAIN_GENERAL_FAILURE
+              - CRYPTO_CONSTRAINTS_FAILURE
+              - EXPIRED
+              - NOT_YET_VALID
+              - POLICY_PROCESSING_ERROR
+              - SIGNATURE_POLICY_NOT_AVAILABLE
+              - TIMESTAMP_ORDER_FAILURE
+              - NO_SIGNING_CERTIFICATE_FOUND
+              - NO_CERTIFICATE_CHAIN_FOUND
+              - REVOKED_NO_POE
+              - REVOKED_CA_NO_POE
+              - OUT_OF_BOUNDS_NO_POE
+              - OUT_OF_BOUNDS_NOT_REVOKED
+              - CRYPTO_CONSTRAINTS_FAILURE_NO_POE
+              - NO_POE
+              - TRY_LATER
+              - SIGNED_DATA_NOT_FOUND
+        associatedValidationReportData:
+          type: array
+          xml:
+            name: AssociatedValidationReportData
+          items:
+            $ref: '#/components/schemas/ValidationReportDataType'
+    ValidationTimeInfoType:
+      required:
+        - validationTime
+      type: object
+      properties:
+        validationTime:
+          type: string
+          format: date-time
+          xml:
+            name: ValidationTime
+        bestSignatureTime:
+          $ref: '#/components/schemas/POEType'
+    WSReportsDTO:
+      type: object
+      properties:
+        diagnosticData:
+          $ref: '#/components/schemas/XmlDiagnosticData'
+        simpleReport:
+          $ref: '#/components/schemas/XmlSimpleReport'
+        detailedReport:
+          $ref: '#/components/schemas/XmlDetailedReport'
+        validationReportaDataHandler:
+          type: object
+          properties:
+            dataSource:
+              type: object
+              properties:
+                contentType:
+                  type: string
+                outputStream:
+                  type: object
+                name:
+                  type: string
+                inputStream:
+                  type: object
+            commandMap:
+              type: object
+              properties:
+                mimeTypes:
+                  type: array
+                  items:
+                    type: string
+                    xml:
+                      name: Infos
+              writeOnly: true
+            transferDataFlavors:
+              type: array
+              items:
+                type: object
+                properties:
+                  mimeType:
+                    type: string
+                  humanPresentableName:
+                    type: string
+                  representationClassInputStream:
+                    type: boolean
+                  representationClassByteBuffer:
+                    type: boolean
+                  flavorTextType:
+                    type: boolean
+                  representationClassReader:
+                    type: boolean
+                  representationClassCharBuffer:
+                    type: boolean
+                  mimeTypeSerializedObject:
+                    type: boolean
+                  defaultRepresentationClassAsString:
+                    type: string
+                  representationClassSerializable:
+                    type: boolean
+                  representationClassRemote:
+                    type: boolean
+                  flavorSerializedObjectType:
+                    type: boolean
+                  flavorRemoteObjectType:
+                    type: boolean
+                  flavorJavaFileListType:
+                    type: boolean
+                  subType:
+                    type: string
+                  primaryType:
+                    type: string
+            preferredCommands:
+              type: array
+              items:
+                type: object
+                properties:
+                  commandName:
+                    type: string
+                  commandClass:
+                    type: string
+            allCommands:
+              type: array
+              items:
+                type: object
+                properties:
+                  commandName:
+                    type: string
+                  commandClass:
+                    type: string
+            contentType:
+              type: string
+            outputStream:
+              type: object
+            name:
+              type: string
+            inputStream:
+              type: object
+            content:
+              type: object
+        validationReport:
+          $ref: '#/components/schemas/ValidationReportType'
+    XAdESSignaturePtrType:
+      type: object
+      properties:
+        nsPrefixMapping:
+          type: array
+          xml:
+            name: NsPrefixMapping
+          items:
+            $ref: '#/components/schemas/NsPrefixMappingType'
+        whichDocument:
+          type: object
+          xml:
+            name: WhichDocument
+            attribute: true
+        schemaRefs:
+          type: array
+          items:
+            type: object
+        xpath:
+          type: string
+    XmlAbstractToken:
+      type: object
+      properties:
+        id:
+          type: string
+          xml:
+            name: Id
+            attribute: true
+    XmlBasicBuildingBlocks:
+      type: object
+      properties:
+        fc:
+          $ref: '#/components/schemas/XmlFC'
+        isc:
+          $ref: '#/components/schemas/XmlISC'
+        vci:
+          $ref: '#/components/schemas/XmlVCI'
+        xcv:
+          $ref: '#/components/schemas/XmlXCV'
+        cv:
+          $ref: '#/components/schemas/XmlCV'
+        sav:
+          $ref: '#/components/schemas/XmlSAV'
+        psv:
+          $ref: '#/components/schemas/XmlPSV'
+        pcv:
+          $ref: '#/components/schemas/XmlPCV'
+        vts:
+          $ref: '#/components/schemas/XmlVTS'
+        certificateChain:
+          $ref: '#/components/schemas/XmlCertificateChain'
+        conclusion:
+          $ref: '#/components/schemas/XmlConclusion'
+        id:
+          type: string
+          xml:
+            name: Id
+            attribute: true
+        type:
+          type: string
+          xml:
+            name: Type
+            attribute: true
+          enum:
+            - SIGNATURE
+            - COUNTER_SIGNATURE
+            - TIMESTAMP
+            - REVOCATION
+            - CERTIFICATE
+    XmlBasicSignature:
+      type: object
+      properties:
+        encryptionAlgoUsedToSignThisToken:
+          type: string
+          xml:
+            name: EncryptionAlgoUsedToSignThisToken
+          enum:
+            - RSA
+            - DSA
+            - ECDSA
+            - PLAIN_ECDSA
+            - HMAC
+        keyLengthUsedToSignThisToken:
+          type: string
+          xml:
+            name: KeyLengthUsedToSignThisToken
+        digestAlgoUsedToSignThisToken:
+          type: string
+          xml:
+            name: DigestAlgoUsedToSignThisToken
+          enum:
+            - SHA1
+            - SHA224
+            - SHA256
+            - SHA384
+            - SHA512
+            - SHA3_224
+            - SHA3_256
+            - SHA3_384
+            - SHA3_512
+            - RIPEMD160
+            - MD2
+            - MD5
+            - WHIRLPOOL
+        maskGenerationFunctionUsedToSignThisToken:
+          type: string
+          xml:
+            name: MaskGenerationFunctionUsedToSignThisToken
+          enum:
+            - MGF1
+        signatureIntact:
+          type: boolean
+          xml:
+            name: SignatureIntact
+        signatureValid:
+          type: boolean
+          xml:
+            name: SignatureValid
+    XmlCV:
+      type: object
+      properties:
+        constraint:
+          type: array
+          xml:
+            name: Constraint
+          items:
+            $ref: '#/components/schemas/XmlConstraint'
+        conclusion:
+          $ref: '#/components/schemas/XmlConclusion'
+        title:
+          type: string
+          xml:
+            name: Title
+            attribute: true
+    XmlCertificate:
+      required:
+        - id
+        - qualifiedName
+      type: object
+      properties:
+        id:
+          type: string
+        qualifiedName:
+          type: string
+    XmlCertificateChain:
+      type: object
+      properties:
+        chainItem:
+          type: array
+          xml:
+            name: ChainItem
+          items:
+            $ref: '#/components/schemas/XmlChainItem'
+    XmlCertificatePolicy:
+      type: object
+      properties:
+        value:
+          type: string
+        description:
+          type: string
+          xml:
+            name: Description
+            attribute: true
+        cpsUrl:
+          type: string
+          xml:
+            attribute: true
+    XmlCertificateRef:
+      required:
+        - origin
+      type: object
+      properties:
+        origin:
+          type: string
+          xml:
+            name: Origin
+          enum:
+            - ATTRIBUTE_CERTIFICATE_REFS
+            - COMPLETE_CERTIFICATE_REFS
+            - SIGNING_CERTIFICATE
+        issuerSerial:
+          type: array
+          xml:
+            name: IssuerSerial
+          items:
+            type: string
+            format: byte
+            xml:
+              name: IssuerSerial
+        digestAlgoAndValue:
+          $ref: '#/components/schemas/XmlDigestAlgoAndValue'
+    XmlCertificateRevocation:
+      type: object
+      properties:
+        status:
+          type: boolean
+          xml:
+            name: Status
+        reason:
+          type: string
+          xml:
+            name: Reason
+          enum:
+            - UNSPECIFIED
+            - KEY_COMPROMISE
+            - CA_COMPROMISE
+            - AFFILIATION_CHANGED
+            - SUPERSEDED
+            - CESSATION_OF_OPERATION
+            - CERTIFICATE_HOLD
+            - REMOVE_FROM_CRL
+            - PRIVILEGE_WITHDRAWN
+            - AA_COMPROMISE
+        revocationDate:
+          type: string
+          format: date-time
+          xml:
+            name: RevocationDate
+        revocation:
+          $ref: '#/components/schemas/XmlRevocation'
+    XmlChainItem:
+      required:
+        - source
+      type: object
+      properties:
+        source:
+          type: string
+          xml:
+            name: Source
+          enum:
+            - TRUSTED_STORE
+            - TRUSTED_LIST
+            - SIGNATURE
+            - OCSP_RESPONSE
+            - OTHER
+            - AIA
+            - TIMESTAMP
+            - UNKNOWN
+        id:
+          type: string
+          xml:
+            name: Id
+            attribute: true
+    XmlConclusion:
+      required:
+        - indication
+      type: object
+      properties:
+        indication:
+          type: string
+          xml:
+            name: Indication
+          enum:
+            - TOTAL_PASSED
+            - TOTAL_FAILED
+            - INDETERMINATE
+            - PASSED
+            - FAILED
+            - NO_SIGNATURE_FOUND
+        subIndication:
+          type: string
+          xml:
+            name: SubIndication
+          enum:
+            - FORMAT_FAILURE
+            - HASH_FAILURE
+            - SIG_CRYPTO_FAILURE
+            - REVOKED
+            - SIG_CONSTRAINTS_FAILURE
+            - CHAIN_CONSTRAINTS_FAILURE
+            - CERTIFICATE_CHAIN_GENERAL_FAILURE
+            - CRYPTO_CONSTRAINTS_FAILURE
+            - EXPIRED
+            - NOT_YET_VALID
+            - POLICY_PROCESSING_ERROR
+            - SIGNATURE_POLICY_NOT_AVAILABLE
+            - TIMESTAMP_ORDER_FAILURE
+            - NO_SIGNING_CERTIFICATE_FOUND
+            - NO_CERTIFICATE_CHAIN_FOUND
+            - REVOKED_NO_POE
+            - REVOKED_CA_NO_POE
+            - OUT_OF_BOUNDS_NO_POE
+            - OUT_OF_BOUNDS_NOT_REVOKED
+            - CRYPTO_CONSTRAINTS_FAILURE_NO_POE
+            - NO_POE
+            - TRY_LATER
+            - SIGNED_DATA_NOT_FOUND
+        errors:
+          type: array
+          xml:
+            name: Errors
+          items:
+            $ref: '#/components/schemas/XmlName'
+        warnings:
+          type: array
+          xml:
+            name: Warnings
+          items:
+            $ref: '#/components/schemas/XmlName'
+        infos:
+          type: array
+          xml:
+            name: Infos
+          items:
+            $ref: '#/components/schemas/XmlName'
+    XmlConstraint:
+      required:
+        - status
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/XmlName'
+        status:
+          type: string
+          xml:
+            name: Status
+          enum:
+            - OK
+            - NOT_OK
+            - IGNORED
+            - INFORMATION
+            - WARNING
+        error:
+          $ref: '#/components/schemas/XmlName'
+        warning:
+          $ref: '#/components/schemas/XmlName'
+        info:
+          $ref: '#/components/schemas/XmlName'
+        additionalInfo:
+          type: string
+          xml:
+            name: AdditionalInfo
+        id:
+          type: string
+          xml:
+            name: Id
+            attribute: true
+    XmlContainerInfo:
+      type: object
+      properties:
+        containerType:
+          type: string
+          xml:
+            name: ContainerType
+        zipComment:
+          type: string
+          xml:
+            name: ZipComment
+        mimeTypeFilePresent:
+          type: boolean
+          xml:
+            name: MimeTypeFilePresent
+        mimeTypeContent:
+          type: string
+          xml:
+            name: MimeTypeContent
+        manifestFiles:
+          type: array
+          xml:
+            name: ManifestFiles
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/XmlManifestFile'
+        contentFiles:
+          type: array
+          xml:
+            name: ContentFiles
+            wrapped: true
+          items:
+            type: string
+            xml:
+              name: ContentFile
+    XmlCryptographicInformation:
+      required:
+        - algorithm
+        - keyLength
+      type: object
+      properties:
+        algorithm:
+          type: string
+          xml:
+            name: Algorithm
+        keyLength:
+          type: string
+          xml:
+            name: KeyLength
+        secure:
+          type: boolean
+          xml:
+            name: Secure
+        notAfter:
+          type: string
+          format: date-time
+          xml:
+            name: NotAfter
+    XmlDetailedReport:
+      type: object
+      properties:
+        signatureOrTimestampOrCertificate:
+          type: array
+          items:
+            type: object
+        basicBuildingBlocks:
+          type: array
+          xml:
+            name: BasicBuildingBlocks
+          items:
+            $ref: '#/components/schemas/XmlBasicBuildingBlocks'
+        tlanalysis:
+          type: array
+          items:
+            $ref: '#/components/schemas/XmlTLAnalysis'
+    XmlDiagnosticData:
+      required:
+        - validationDate
+      type: object
+      properties:
+        documentName:
+          type: string
+          xml:
+            name: DocumentName
+        validationDate:
+          type: string
+          format: date-time
+          xml:
+            name: ValidationDate
+        containerInfo:
+          $ref: '#/components/schemas/XmlContainerInfo'
+        signatures:
+          type: array
+          xml:
+            name: Signatures
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/XmlSignature'
+        usedCertificates:
+          type: array
+          xml:
+            name: UsedCertificates
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/XmlCertificate'
+        usedRevocations:
+          type: array
+          xml:
+            name: UsedRevocations
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/XmlRevocation'
+        usedTimestamps:
+          type: array
+          xml:
+            name: UsedTimestamps
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/XmlTimestamp'
+        orphanTokens:
+          type: array
+          xml:
+            name: OrphanTokens
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/XmlOrphanToken'
+        originalDocuments:
+          type: array
+          xml:
+            name: OriginalDocuments
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/XmlSignerData'
+        trustedLists:
+          type: array
+          xml:
+            name: TrustedLists
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/XmlTrustedList'
+    XmlDigestAlgoAndValue:
+      type: object
+      properties:
+        digestMethod:
+          type: string
+          xml:
+            name: DigestMethod
+          enum:
+            - SHA1
+            - SHA224
+            - SHA256
+            - SHA384
+            - SHA512
+            - SHA3_224
+            - SHA3_256
+            - SHA3_384
+            - SHA3_512
+            - RIPEMD160
+            - MD2
+            - MD5
+            - WHIRLPOOL
+        digestValue:
+          type: array
+          xml:
+            name: DigestValue
+          items:
+            type: string
+            format: byte
+            xml:
+              name: IssuerSerial
+    XmlDigestMatcher:
+      type: object
+      properties:
+        digestMethod:
+          type: string
+          xml:
+            name: DigestMethod
+          enum:
+            - SHA1
+            - SHA224
+            - SHA256
+            - SHA384
+            - SHA512
+            - SHA3_224
+            - SHA3_256
+            - SHA3_384
+            - SHA3_512
+            - RIPEMD160
+            - MD2
+            - MD5
+            - WHIRLPOOL
+        digestValue:
+          type: array
+          xml:
+            name: DigestValue
+          items:
+            type: string
+            format: byte
+            xml:
+              name: DigestValue
+        dataFound:
+          type: boolean
+          xml:
+            name: DataFound
+        dataIntact:
+          type: boolean
+          xml:
+            name: DataIntact
+        type:
+          type: string
+          xml:
+            attribute: true
+          enum:
+            - REFERENCE
+            - OBJECT
+            - MANIFEST
+            - SIGNED_PROPERTIES
+            - KEY_INFO
+            - XPOINTER
+            - MANIFEST_ENTRY
+            - MESSAGE_DIGEST
+            - CONTENT_DIGEST
+            - MESSAGE_IMPRINT
+        name:
+          type: string
+          xml:
+            attribute: true
+    XmlDistinguishedName:
+      type: object
+      properties:
+        value:
+          type: string
+        format:
+          type: string
+          xml:
+            name: Format
+            attribute: true
+    XmlFC:
+      type: object
+      properties:
+        constraint:
+          type: array
+          xml:
+            name: Constraint
+          items:
+            $ref: '#/components/schemas/XmlConstraint'
+        conclusion:
+          $ref: '#/components/schemas/XmlConclusion'
+        title:
+          type: string
+          xml:
+            name: Title
+            attribute: true
+    XmlFoundCertificates:
+      type: object
+      properties:
+        relatedCertificates:
+          type: array
+          xml:
+            name: RelatedCertificate
+          items:
+            $ref: '#/components/schemas/XmlRelatedCertificate'
+        orphanCertificates:
+          type: array
+          xml:
+            name: OrphanCertificate
+          items:
+            $ref: '#/components/schemas/XmlOrphanCertificate'
+    XmlFoundRevocations:
+      type: object
+      properties:
+        relatedRevocations:
+          type: array
+          xml:
+            name: RelatedRevocation
+          items:
+            $ref: '#/components/schemas/XmlRelatedRevocation'
+        orphanRevocations:
+          type: array
+          xml:
+            name: OrphanRevocation
+          items:
+            $ref: '#/components/schemas/XmlOrphanRevocation'
+    XmlFoundTimestamp:
+      type: object
+      properties:
+        timestamp:
+          $ref: '#/components/schemas/XmlTimestamp'
+        location:
+          type: string
+          xml:
+            name: Location
+            attribute: true
+          enum:
+            - XAdES
+            - CAdES
+            - DOC_TIMESTAMP
+    XmlISC:
+      type: object
+      properties:
+        constraint:
+          type: array
+          xml:
+            name: Constraint
+          items:
+            $ref: '#/components/schemas/XmlConstraint'
+        conclusion:
+          $ref: '#/components/schemas/XmlConclusion'
+        title:
+          type: string
+          xml:
+            name: Title
+            attribute: true
+        certificateChain:
+          $ref: '#/components/schemas/XmlCertificateChain'
+    XmlLangAndValue:
+      type: object
+      properties:
+        value:
+          type: string
+        lang:
+          type: string
+          xml:
+            attribute: true
+    XmlManifestFile:
+      type: object
+      properties:
+        filename:
+          type: string
+          xml:
+            name: Filename
+        signatureFilename:
+          type: string
+          xml:
+            name: SignatureFilename
+        entries:
+          type: array
+          xml:
+            name: Entries
+            wrapped: true
+          items:
+            type: string
+            xml:
+              name: Entry
+    XmlName:
+      type: object
+      properties:
+        value:
+          type: string
+        nameId:
+          type: string
+          xml:
+            name: NameId
+            attribute: true
+    XmlOID:
+      type: object
+      properties:
+        value:
+          type: string
+        description:
+          type: string
+          xml:
+            name: Description
+            attribute: true
+    XmlOrphanCertificate:
+      type: object
+      properties:
+        origins:
+          type: array
+          xml:
+            name: Origin
+          items:
+            type: string
+            xml:
+              name: Origin
+            enum:
+              - KEY_INFO
+              - CERTIFICATE_VALUES
+              - ATTR_AUTORITIES_CERT_VALUES
+              - TIMESTAMP_VALIDATION_DATA
+              - DSS_DICTIONARY
+              - VRI_DICTIONARY
+              - TIMESTAMP_CERTIFICATE_VALUES
+        certificateRefs:
+          type: array
+          xml:
+            name: CertificateRef
+          items:
+            $ref: '#/components/schemas/XmlCertificateRef'
+        token:
+          $ref: '#/components/schemas/XmlOrphanToken'
+    XmlOrphanRevocation:
+      required:
+        - type
+      type: object
+      properties:
+        type:
+          type: string
+          xml:
+            name: Type
+          enum:
+            - CRL
+            - OCSP
+        origins:
+          type: array
+          xml:
+            name: Origin
+          items:
+            type: string
+            xml:
+              name: Origin
+            enum:
+              - CMS_SIGNED_DATA
+              - TIMESTAMP_SIGNED_DATA
+              - REVOCATION_VALUES
+              - ATTRIBUTE_REVOCATION_VALUES
+              - TIMESTAMP_VALIDATION_DATA
+              - DSS_DICTIONARY
+              - VRI_DICTIONARY
+              - TIMESTAMP_REVOCATION_VALUES
+              - ADBE_REVOCATION_INFO_ARCHIVAL
+              - INPUT_DOCUMENT
+              - EXTERNAL
+              - CACHED
+        revocationRefs:
+          type: array
+          xml:
+            name: RevocationRef
+          items:
+            $ref: '#/components/schemas/XmlRevocationRef'
+        token:
+          $ref: '#/components/schemas/XmlOrphanToken'
+    XmlOrphanToken:
+      required:
+        - type
+      type: object
+      properties:
+        id:
+          type: string
+          xml:
+            name: Id
+            attribute: true
+        type:
+          type: string
+          xml:
+            name: Type
+          enum:
+            - CERTIFICATE
+            - REVOCATION
+        base64Encoded:
+          type: array
+          xml:
+            name: Base64Encoded
+          items:
+            type: string
+            format: byte
+            xml:
+              name: SignatureValue
+        digestAlgoAndValue:
+          $ref: '#/components/schemas/XmlDigestAlgoAndValue'
+    XmlPCV:
+      type: object
+      properties:
+        constraint:
+          type: array
+          xml:
+            name: Constraint
+          items:
+            $ref: '#/components/schemas/XmlConstraint'
+        conclusion:
+          $ref: '#/components/schemas/XmlConclusion'
+        title:
+          type: string
+          xml:
+            name: Title
+            attribute: true
+        controlTime:
+          type: string
+          format: date-time
+          xml:
+            name: ControlTime
+    XmlPDFRevision:
+      type: object
+      properties:
+        signatureFieldName:
+          type: array
+          xml:
+            name: SignatureFieldName
+          items:
+            type: string
+            xml:
+              name: SignatureFieldName
+        signerInformationStore:
+          type: array
+          xml:
+            name: SignerInformationStore
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/XmlSignerInfo'
+        pdfsignatureDictionary:
+          $ref: '#/components/schemas/XmlPDFSignatureDictionary'
+    XmlPDFSignatureDictionary:
+      type: object
+      properties:
+        signerName:
+          type: string
+          xml:
+            name: SignerName
+        type:
+          type: string
+          xml:
+            name: Type
+        filter:
+          type: string
+          xml:
+            name: Filter
+        subFilter:
+          type: string
+          xml:
+            name: SubFilter
+        contactInfo:
+          type: string
+          xml:
+            name: ContactInfo
+        reason:
+          type: string
+          xml:
+            name: Reason
+        signatureByteRange:
+          type: array
+          xml:
+            name: SignatureByteRange
+          items:
+            type: integer
+            xml:
+              name: SignatureByteRange
+    XmlPSV:
+      type: object
+      properties:
+        constraint:
+          type: array
+          xml:
+            name: Constraint
+          items:
+            $ref: '#/components/schemas/XmlConstraint'
+        conclusion:
+          $ref: '#/components/schemas/XmlConclusion'
+        title:
+          type: string
+          xml:
+            name: Title
+            attribute: true
+        controlTime:
+          type: string
+          format: date-time
+          xml:
+            name: ControlTime
+    XmlPolicy:
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          type: string
+          xml:
+            name: Id
+        url:
+          type: string
+          xml:
+            name: Url
+        description:
+          type: string
+          xml:
+            name: Description
+        notice:
+          type: string
+          xml:
+            name: Notice
+        zeroHash:
+          type: boolean
+          xml:
+            name: ZeroHash
+        digestAlgoAndValue:
+          $ref: '#/components/schemas/XmlDigestAlgoAndValue'
+        asn1Processable:
+          type: boolean
+          xml:
+            name: Asn1Processable
+        identified:
+          type: boolean
+          xml:
+            name: Identified
+        status:
+          type: boolean
+          xml:
+            name: Status
+        processingError:
+          type: string
+          xml:
+            name: ProcessingError
+        digestAlgorithmsEqual:
+          type: boolean
+          xml:
+            name: DigestAlgorithmsEqual
+    XmlRAC:
+      required:
+        - revocationProductionDate
+      type: object
+      properties:
+        constraint:
+          type: array
+          xml:
+            name: Constraint
+          items:
+            $ref: '#/components/schemas/XmlConstraint'
+        conclusion:
+          $ref: '#/components/schemas/XmlConclusion'
+        title:
+          type: string
+          xml:
+            name: Title
+            attribute: true
+        revocationProductionDate:
+          type: string
+          format: date-time
+          xml:
+            name: RevocationProductionDate
+        id:
+          type: string
+          xml:
+            name: Id
+            attribute: true
+    XmlRFC:
+      type: object
+      properties:
+        constraint:
+          type: array
+          xml:
+            name: Constraint
+          items:
+            $ref: '#/components/schemas/XmlConstraint'
+        conclusion:
+          $ref: '#/components/schemas/XmlConclusion'
+        title:
+          type: string
+          xml:
+            name: Title
+            attribute: true
+        id:
+          type: string
+          xml:
+            name: Id
+            attribute: true
+    XmlRelatedCertificate:
+      type: object
+      properties:
+        origins:
+          type: array
+          xml:
+            name: Origin
+          items:
+            type: string
+            xml:
+              name: Origin
+            enum:
+              - KEY_INFO
+              - CERTIFICATE_VALUES
+              - ATTR_AUTORITIES_CERT_VALUES
+              - TIMESTAMP_VALIDATION_DATA
+              - DSS_DICTIONARY
+              - VRI_DICTIONARY
+              - TIMESTAMP_CERTIFICATE_VALUES
+        certificateRefs:
+          type: array
+          xml:
+            name: CertificateRef
+          items:
+            $ref: '#/components/schemas/XmlCertificateRef'
+        certificate:
+          $ref: '#/components/schemas/XmlCertificate'
+    XmlRelatedRevocation:
+      required:
+        - type
+      type: object
+      properties:
+        type:
+          type: string
+          xml:
+            name: Type
+          enum:
+            - CRL
+            - OCSP
+        origins:
+          type: array
+          xml:
+            name: Origin
+          items:
+            type: string
+            xml:
+              name: Origin
+            enum:
+              - CMS_SIGNED_DATA
+              - TIMESTAMP_SIGNED_DATA
+              - REVOCATION_VALUES
+              - ATTRIBUTE_REVOCATION_VALUES
+              - TIMESTAMP_VALIDATION_DATA
+              - DSS_DICTIONARY
+              - VRI_DICTIONARY
+              - TIMESTAMP_REVOCATION_VALUES
+              - ADBE_REVOCATION_INFO_ARCHIVAL
+              - INPUT_DOCUMENT
+              - EXTERNAL
+              - CACHED
+        revocationRefs:
+          type: array
+          xml:
+            name: RevocationRef
+          items:
+            $ref: '#/components/schemas/XmlRevocationRef'
+        revocation:
+          $ref: '#/components/schemas/XmlRevocation'
+    XmlRevocation:
+      required:
+        - origin
+        - type
+      type: object
+      properties:
+        id:
+          type: string
+          xml:
+            name: Id
+            attribute: true
+        origin:
+          type: string
+          xml:
+            name: Origin
+          enum:
+            - CMS_SIGNED_DATA
+            - TIMESTAMP_SIGNED_DATA
+            - REVOCATION_VALUES
+            - ATTRIBUTE_REVOCATION_VALUES
+            - TIMESTAMP_VALIDATION_DATA
+            - DSS_DICTIONARY
+            - VRI_DICTIONARY
+            - TIMESTAMP_REVOCATION_VALUES
+            - ADBE_REVOCATION_INFO_ARCHIVAL
+            - INPUT_DOCUMENT
+            - EXTERNAL
+            - CACHED
+        type:
+          type: string
+          xml:
+            name: Type
+          enum:
+            - CRL
+            - OCSP
+        sourceAddress:
+          type: string
+          xml:
+            name: SourceAddress
+        productionDate:
+          type: string
+          format: date-time
+          xml:
+            name: ProductionDate
+        thisUpdate:
+          type: string
+          format: date-time
+          xml:
+            name: ThisUpdate
+        nextUpdate:
+          type: string
+          format: date-time
+          xml:
+            name: NextUpdate
+        expiredCertsOnCRL:
+          type: string
+          format: date-time
+          xml:
+            name: ExpiredCertsOnCRL
+        archiveCutOff:
+          type: string
+          format: date-time
+          xml:
+            name: ArchiveCutOff
+        certHashExtensionPresent:
+          type: boolean
+          xml:
+            name: CertHashExtensionPresent
+        certHashExtensionMatch:
+          type: boolean
+          xml:
+            name: CertHashExtensionMatch
+        basicSignature:
+          $ref: '#/components/schemas/XmlBasicSignature'
+        signingCertificate:
+          $ref: '#/components/schemas/XmlSigningCertificate'
+        certificateChain:
+          type: array
+          xml:
+            name: CertificateChain
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/XmlChainItem'
+        base64Encoded:
+          type: array
+          xml:
+            name: Base64Encoded
+          items:
+            type: string
+            format: byte
+            xml:
+              name: SignatureValue
+        digestAlgoAndValue:
+          $ref: '#/components/schemas/XmlDigestAlgoAndValue'
+    XmlRevocationInformation:
+      required:
+        - certificateId
+        - revocationDate
+        - revocationId
+      type: object
+      properties:
+        certificateId:
+          type: string
+          xml:
+            name: CertificateId
+        revocationId:
+          type: string
+          xml:
+            name: RevocationId
+        reason:
+          type: string
+          xml:
+            name: Reason
+          enum:
+            - UNSPECIFIED
+            - KEY_COMPROMISE
+            - CA_COMPROMISE
+            - AFFILIATION_CHANGED
+            - SUPERSEDED
+            - CESSATION_OF_OPERATION
+            - CERTIFICATE_HOLD
+            - REMOVE_FROM_CRL
+            - PRIVILEGE_WITHDRAWN
+            - AA_COMPROMISE
+        revocationDate:
+          type: string
+          format: date-time
+          xml:
+            name: RevocationDate
+    XmlRevocationRef:
+      required:
+        - origins
+      type: object
+      properties:
+        origins:
+          type: array
+          xml:
+            name: Origin
+          items:
+            type: string
+            xml:
+              name: Origin
+            enum:
+              - COMPLETE_REVOCATION_REFS
+              - ATTRIBUTE_REVOCATION_REFS
+              - TIMESTAMP_REVOCATION_REFS
+        digestAlgoAndValue:
+          $ref: '#/components/schemas/XmlDigestAlgoAndValue'
+        producedAt:
+          type: string
+          format: date-time
+          xml:
+            name: ProducedAt
+        responderIdName:
+          type: string
+          xml:
+            name: ResponderIdName
+        responderIdKey:
+          type: array
+          xml:
+            name: ResponderIdKey
+          items:
+            type: string
+            format: byte
+            xml:
+              name: ResponderIdKey
+    XmlSAV:
+      type: object
+      properties:
+        constraint:
+          type: array
+          xml:
+            name: Constraint
+          items:
+            $ref: '#/components/schemas/XmlConstraint'
+        conclusion:
+          $ref: '#/components/schemas/XmlConclusion'
+        title:
+          type: string
+          xml:
+            name: Title
+            attribute: true
+        cryptographicInfo:
+          $ref: '#/components/schemas/XmlCryptographicInformation'
+        validationTime:
+          type: string
+          format: date-time
+          xml:
+            name: ValidationTime
+            attribute: true
+    XmlSignature:
+      required:
+        - signatureFilename
+        - signatureFormat
+      type: object
+      properties:
+        id:
+          type: string
+          xml:
+            name: Id
+            attribute: true
+        signatureFilename:
+          type: string
+          xml:
+            name: SignatureFilename
+        errorMessage:
+          type: string
+          xml:
+            name: ErrorMessage
+        claimedSigningTime:
+          type: string
+          format: date-time
+          xml:
+            name: ClaimedSigningTime
+        signatureFormat:
+          type: string
+          xml:
+            name: SignatureFormat
+          enum:
+            - XML-NOT-ETSI
+            - XAdES-C
+            - XAdES-X
+            - XAdES-XL
+            - XAdES-A
+            - XAdES-BASELINE-LTA
+            - XAdES-BASELINE-LT
+            - XAdES-BASELINE-T
+            - XAdES-BASELINE-B
+            - CMS-NOT-ETSI
+            - CAdES-BASELINE-LTA
+            - CAdES-BASELINE-LT
+            - CAdES-BASELINE-T
+            - CAdES-BASELINE-B
+            - CAdES-101733-C
+            - CAdES-101733-X
+            - CAdES-101733-A
+            - PDF-NOT-ETSI
+            - PAdES-BASELINE-LTA
+            - PAdES-BASELINE-LT
+            - PAdES-BASELINE-T
+            - PAdES-BASELINE-B
+            - PKCS7-B
+            - PKCS7-T
+            - PKCS7-LT
+            - PKCS7-LTA
+            - UNKNOWN
+        structuralValidation:
+          $ref: '#/components/schemas/XmlStructuralValidation'
+        digestMatchers:
+          type: array
+          xml:
+            name: DigestMatchers
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/XmlDigestMatcher'
+        basicSignature:
+          $ref: '#/components/schemas/XmlBasicSignature'
+        signingCertificate:
+          $ref: '#/components/schemas/XmlSigningCertificate'
+        certificateChain:
+          type: array
+          xml:
+            name: CertificateChain
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/XmlChainItem'
+        contentType:
+          type: string
+          xml:
+            name: ContentType
+        mimeType:
+          type: string
+          xml:
+            name: MimeType
+        contentIdentifier:
+          type: string
+          xml:
+            name: ContentIdentifier
+        contentHints:
+          type: string
+          xml:
+            name: ContentHints
+        signatureProductionPlace:
+          $ref: '#/components/schemas/XmlSignatureProductionPlace'
+        commitmentTypeIndication:
+          type: array
+          xml:
+            name: CommitmentTypeIndication
+            wrapped: true
+          items:
+            type: string
+            xml:
+              name: Indication
+        signerRole:
+          type: array
+          xml:
+            name: SignerRole
+          items:
+            $ref: '#/components/schemas/XmlSignerRole'
+        policy:
+          $ref: '#/components/schemas/XmlPolicy'
+        signerDocumentRepresentations:
+          $ref: '#/components/schemas/XmlSignerDocumentRepresentations'
+        foundCertificates:
+          $ref: '#/components/schemas/XmlFoundCertificates'
+        foundRevocations:
+          $ref: '#/components/schemas/XmlFoundRevocations'
+        foundTimestamps:
+          type: array
+          xml:
+            name: FoundTimestamps
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/XmlFoundTimestamp'
+        signatureScopes:
+          type: array
+          xml:
+            name: SignatureScopes
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/XmlSignatureScope'
+        signatureDigestReference:
+          $ref: '#/components/schemas/XmlSignatureDigestReference'
+        signatureValue:
+          type: array
+          xml:
+            name: SignatureValue
+          items:
+            type: string
+            format: byte
+            xml:
+              name: SignatureValue
+        counterSignature:
+          type: boolean
+          xml:
+            name: CounterSignature
+            attribute: true
+        parent:
+          $ref: '#/components/schemas/XmlSignature'
+        duplicated:
+          type: boolean
+          xml:
+            name: Duplicated
+            attribute: true
+        daidentifier:
+          type: string
+        pdfrevision:
+          $ref: '#/components/schemas/XmlPDFRevision'
+    XmlSignatureDigestReference:
+      required:
+        - digestMethod
+        - digestValue
+      type: object
+      properties:
+        canonicalizationMethod:
+          type: string
+          xml:
+            name: CanonicalizationMethod
+        digestMethod:
+          type: string
+          xml:
+            name: DigestMethod
+          enum:
+            - SHA1
+            - SHA224
+            - SHA256
+            - SHA384
+            - SHA512
+            - SHA3_224
+            - SHA3_256
+            - SHA3_384
+            - SHA3_512
+            - RIPEMD160
+            - MD2
+            - MD5
+            - WHIRLPOOL
+        digestValue:
+          type: array
+          xml:
+            name: DigestValue
+          items:
+            type: string
+            format: byte
+            xml:
+              name: DigestValue
+    XmlSignatureProductionPlace:
+      type: object
+      properties:
+        address:
+          type: string
+          xml:
+            name: Address
+        city:
+          type: string
+          xml:
+            name: City
+        stateOrProvince:
+          type: string
+          xml:
+            name: StateOrProvince
+        postalCode:
+          type: string
+          xml:
+            name: PostalCode
+        countryName:
+          type: string
+          xml:
+            name: CountryName
+    XmlSignatureScope:
+      required:
+        - description
+        - scope
+      type: object
+      properties:
+        scope:
+          type: string
+          xml:
+            name: Scope
+          enum:
+            - FULL
+            - PARTIAL
+            - DIGEST
+            - ARCHIVED
+        name:
+          type: string
+          xml:
+            name: Name
+        description:
+          type: string
+          xml:
+            name: Description
+        transformations:
+          type: array
+          xml:
+            name: Transformations
+            wrapped: true
+          items:
+            type: string
+            xml:
+              name: Transformation
+        signerData:
+          $ref: '#/components/schemas/XmlSignerData'
+    XmlSignerData:
+      type: object
+      properties:
+        id:
+          type: string
+          xml:
+            name: Id
+            attribute: true
+        referencedName:
+          type: string
+          xml:
+            name: ReferencedName
+        digestAlgoAndValue:
+          $ref: '#/components/schemas/XmlDigestAlgoAndValue'
+    XmlSignerDocumentRepresentations:
+      type: object
+      properties:
+        hashOnly:
+          type: boolean
+          xml:
+            name: HashOnly
+            attribute: true
+        docHashOnly:
+          type: boolean
+          xml:
+            name: DocHashOnly
+            attribute: true
+    XmlSignerInfo:
+      required:
+        - issuer
+        - serialNumber
+      type: object
+      properties:
+        issuer:
+          type: string
+          xml:
+            name: Issuer
+        serialNumber:
+          type: integer
+          xml:
+            name: SerialNumber
+        processed:
+          type: boolean
+          xml:
+            name: Processed
+            attribute: true
+    XmlSignerRole:
+      required:
+        - role
+      type: object
+      properties:
+        role:
+          type: string
+          xml:
+            name: Role
+        notAfter:
+          type: string
+          format: date-time
+          xml:
+            name: NotAfter
+        notBefore:
+          type: string
+          format: date-time
+          xml:
+            name: NotBefore
+        category:
+          type: string
+          xml:
+            name: Category
+            attribute: true
+          enum:
+            - CERTIFIED
+            - CLAIMED
+            - SIGNED
+    XmlSigningCertificate:
+      type: object
+      properties:
+        attributePresent:
+          type: boolean
+          xml:
+            name: AttributePresent
+        digestValuePresent:
+          type: boolean
+          xml:
+            name: DigestValuePresent
+        digestValueMatch:
+          type: boolean
+          xml:
+            name: DigestValueMatch
+        issuerSerialMatch:
+          type: boolean
+          xml:
+            name: IssuerSerialMatch
+        publicKey:
+          type: array
+          xml:
+            name: PublicKey
+          items:
+            type: string
+            format: byte
+            xml:
+              name: PublicKey
+        certificate:
+          $ref: '#/components/schemas/XmlCertificate'
+    XmlSimpleReport:
+      required:
+        - validationTime
+      type: object
+      properties:
+        validationPolicy:
+          $ref: '#/components/schemas/XmlValidationPolicy'
+        validationTime:
+          type: string
+          format: date-time
+          xml:
+            name: ValidationTime
+        documentName:
+          type: string
+          xml:
+            name: DocumentName
+        validSignaturesCount:
+          type: integer
+          format: int32
+          xml:
+            name: ValidSignaturesCount
+        signaturesCount:
+          type: integer
+          format: int32
+          xml:
+            name: SignaturesCount
+        containerType:
+          type: string
+          xml:
+            name: ContainerType
+        signatureOrTimestamp:
+          type: array
+          items:
+            $ref: '#/components/schemas/XmlToken'
+    XmlStructuralValidation:
+      type: object
+      properties:
+        valid:
+          type: boolean
+          xml:
+            name: Valid
+        message:
+          type: string
+          xml:
+            name: Message
+    XmlSubXCV:
+      type: object
+      properties:
+        constraint:
+          type: array
+          xml:
+            name: Constraint
+          items:
+            $ref: '#/components/schemas/XmlConstraint'
+        conclusion:
+          $ref: '#/components/schemas/XmlConclusion'
+        title:
+          type: string
+          xml:
+            name: Title
+            attribute: true
+        rac:
+          type: array
+          xml:
+            name: RAC
+          items:
+            $ref: '#/components/schemas/XmlRAC'
+        rfc:
+          $ref: '#/components/schemas/XmlRFC'
+        revocationInfo:
+          $ref: '#/components/schemas/XmlRevocationInformation'
+        id:
+          type: string
+          xml:
+            name: Id
+            attribute: true
+        trustAnchor:
+          type: boolean
+          xml:
+            name: TrustAnchor
+            attribute: true
+    XmlTLAnalysis:
+      type: object
+      properties:
+        constraint:
+          type: array
+          xml:
+            name: Constraint
+          items:
+            $ref: '#/components/schemas/XmlConstraint'
+        conclusion:
+          $ref: '#/components/schemas/XmlConclusion'
+        title:
+          type: string
+          xml:
+            name: Title
+            attribute: true
+        countryCode:
+          type: string
+          xml:
+            name: CountryCode
+            attribute: true
+        url:
+          type: string
+          xml:
+            name: URL
+            attribute: true
+        id:
+          type: string
+          xml:
+            name: Id
+            attribute: true
+    XmlTimestamp:
+      required:
+        - digestMatchers
+        - productionTime
+      type: object
+      properties:
+        id:
+          type: string
+          xml:
+            name: Id
+            attribute: true
+        timestampFilename:
+          type: string
+          xml:
+            name: TimestampFilename
+        archiveTimestampType:
+          type: string
+          xml:
+            name: ArchiveTimestampType
+          enum:
+            - XAdES
+            - XAdES_141
+            - CAdES
+            - CAdES_V2
+            - CAdES_V3
+            - CAdES_DETACHED
+            - PAdES
+        productionTime:
+          type: string
+          format: date-time
+          xml:
+            name: ProductionTime
+        digestMatchers:
+          type: array
+          xml:
+            name: DigestMatcher
+          items:
+            $ref: '#/components/schemas/XmlDigestMatcher'
+        basicSignature:
+          $ref: '#/components/schemas/XmlBasicSignature'
+        signingCertificate:
+          $ref: '#/components/schemas/XmlSigningCertificate'
+        certificateChain:
+          type: array
+          xml:
+            name: CertificateChain
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/XmlChainItem'
+        timestampedObjects:
+          type: array
+          xml:
+            name: TimestampedObjects
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/XmlTimestampedObject'
+        base64Encoded:
+          type: array
+          xml:
+            name: Base64Encoded
+          items:
+            type: string
+            format: byte
+            xml:
+              name: SignatureValue
+        digestAlgoAndValue:
+          $ref: '#/components/schemas/XmlDigestAlgoAndValue'
+        type:
+          type: string
+          xml:
+            name: Type
+            attribute: true
+          enum:
+            - CONTENT_TIMESTAMP
+            - ALL_DATA_OBJECTS_TIMESTAMP
+            - INDIVIDUAL_DATA_OBJECTS_TIMESTAMP
+            - SIGNATURE_TIMESTAMP
+            - VALIDATION_DATA_REFSONLY_TIMESTAMP
+            - VALIDATION_DATA_TIMESTAMP
+            - ARCHIVE_TIMESTAMP
+        pdfrevision:
+          $ref: '#/components/schemas/XmlPDFRevision'
+    XmlTimestampedObject:
+      type: object
+      properties:
+        token:
+          $ref: '#/components/schemas/XmlAbstractToken'
+        category:
+          type: string
+          xml:
+            name: Category
+            attribute: true
+          enum:
+            - SIGNED_DATA
+            - SIGNATURE
+            - CERTIFICATE
+            - REVOCATION
+            - TIMESTAMP
+            - ORPHAN
+    XmlToken:
+      required:
+        - indication
+      type: object
+      properties:
+        filename:
+          type: string
+          xml:
+            name: Filename
+        certificateChain:
+          $ref: '#/components/schemas/XmlCertificateChain'
+        indication:
+          type: string
+          xml:
+            name: Indication
+          enum:
+            - TOTAL_PASSED
+            - TOTAL_FAILED
+            - INDETERMINATE
+            - PASSED
+            - FAILED
+            - NO_SIGNATURE_FOUND
+        subIndication:
+          type: string
+          xml:
+            name: SubIndication
+          enum:
+            - FORMAT_FAILURE
+            - HASH_FAILURE
+            - SIG_CRYPTO_FAILURE
+            - REVOKED
+            - SIG_CONSTRAINTS_FAILURE
+            - CHAIN_CONSTRAINTS_FAILURE
+            - CERTIFICATE_CHAIN_GENERAL_FAILURE
+            - CRYPTO_CONSTRAINTS_FAILURE
+            - EXPIRED
+            - NOT_YET_VALID
+            - POLICY_PROCESSING_ERROR
+            - SIGNATURE_POLICY_NOT_AVAILABLE
+            - TIMESTAMP_ORDER_FAILURE
+            - NO_SIGNING_CERTIFICATE_FOUND
+            - NO_CERTIFICATE_CHAIN_FOUND
+            - REVOKED_NO_POE
+            - REVOKED_CA_NO_POE
+            - OUT_OF_BOUNDS_NO_POE
+            - OUT_OF_BOUNDS_NOT_REVOKED
+            - CRYPTO_CONSTRAINTS_FAILURE_NO_POE
+            - NO_POE
+            - TRY_LATER
+            - SIGNED_DATA_NOT_FOUND
+        errors:
+          type: array
+          xml:
+            name: Errors
+          items:
+            type: string
+            xml:
+              name: Errors
+        warnings:
+          type: array
+          xml:
+            name: Warnings
+          items:
+            type: string
+            xml:
+              name: Warnings
+        infos:
+          type: array
+          xml:
+            name: Infos
+          items:
+            type: string
+            xml:
+              name: Infos
+        id:
+          type: string
+          xml:
+            name: Id
+            attribute: true
+    XmlTrustedList:
+      required:
+        - url
+      type: object
+      properties:
+        countryCode:
+          type: string
+          xml:
+            name: CountryCode
+        url:
+          type: string
+          xml:
+            name: Url
+        sequenceNumber:
+          type: integer
+          format: int32
+          xml:
+            name: SequenceNumber
+        version:
+          type: integer
+          format: int32
+          xml:
+            name: Version
+        lastLoading:
+          type: string
+          format: date-time
+          xml:
+            name: LastLoading
+        issueDate:
+          type: string
+          format: date-time
+          xml:
+            name: IssueDate
+        nextUpdate:
+          type: string
+          format: date-time
+          xml:
+            name: NextUpdate
+        wellSigned:
+          type: boolean
+          xml:
+            name: WellSigned
+        id:
+          type: string
+          xml:
+            name: Id
+            attribute: true
+        lotl:
+          type: boolean
+          xml:
+            name: LOTL
+            attribute: true
+    XmlTrustedService:
+      required:
+        - serviceType
+        - startDate
+        - status
+      type: object
+      properties:
+        serviceNames:
+          type: array
+          xml:
+            name: ServiceNames
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/XmlLangAndValue'
+        serviceType:
+          type: string
+          xml:
+            name: ServiceType
+        status:
+          type: string
+          xml:
+            name: Status
+        startDate:
+          type: string
+          format: date-time
+          xml:
+            name: StartDate
+        endDate:
+          type: string
+          format: date-time
+          xml:
+            name: EndDate
+        capturedQualifiers:
+          type: array
+          xml:
+            name: CapturedQualifiers
+            wrapped: true
+          items:
+            type: string
+            xml:
+              name: Qualifier
+        additionalServiceInfoUris:
+          type: array
+          xml:
+            name: AdditionalServiceInfoUris
+            wrapped: true
+          items:
+            type: string
+            xml:
+              name: AdditionalServiceInfoUri
+        serviceSupplyPoints:
+          type: array
+          xml:
+            name: ServiceSupplyPoints
+            wrapped: true
+          items:
+            type: string
+            xml:
+              name: ServiceSupplyPoint
+        expiredCertsRevocationInfo:
+          type: string
+          format: date-time
+          xml:
+            name: ExpiredCertsRevocationInfo
+        serviceDigitalIdentifier:
+          $ref: '#/components/schemas/XmlCertificate'
+    XmlTrustedServiceProvider:
+      type: object
+      properties:
+        trustedServices:
+          type: array
+          xml:
+            name: TrustedServices
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/XmlTrustedService'
+        tl:
+          $ref: '#/components/schemas/XmlTrustedList'
+        lotl:
+          $ref: '#/components/schemas/XmlTrustedList'
+        tspregistrationIdentifiers:
+          type: array
+          items:
+            type: string
+            xml:
+              name: ServiceSupplyPoint
+        tspnames:
+          type: array
+          items:
+            $ref: '#/components/schemas/XmlLangAndValue'
+    XmlVCI:
+      type: object
+      properties:
+        constraint:
+          type: array
+          xml:
+            name: Constraint
+          items:
+            $ref: '#/components/schemas/XmlConstraint'
+        conclusion:
+          $ref: '#/components/schemas/XmlConclusion'
+        title:
+          type: string
+          xml:
+            name: Title
+            attribute: true
+    XmlVTS:
+      type: object
+      properties:
+        constraint:
+          type: array
+          xml:
+            name: Constraint
+          items:
+            $ref: '#/components/schemas/XmlConstraint'
+        conclusion:
+          $ref: '#/components/schemas/XmlConclusion'
+        title:
+          type: string
+          xml:
+            name: Title
+            attribute: true
+        controlTime:
+          type: string
+          format: date-time
+          xml:
+            name: ControlTime
+    XmlValidationPolicy:
+      type: object
+      properties:
+        policyName:
+          type: string
+          xml:
+            name: PolicyName
+        policyDescription:
+          type: string
+          xml:
+            name: PolicyDescription
+    XmlXCV:
+      type: object
+      properties:
+        constraint:
+          type: array
+          xml:
+            name: Constraint
+          items:
+            $ref: '#/components/schemas/XmlConstraint'
+        conclusion:
+          $ref: '#/components/schemas/XmlConclusion'
+        title:
+          type: string
+          xml:
+            name: Title
+            attribute: true
+        subXCV:
+          type: array
+          xml:
+            name: SubXCV
+          items:
+            $ref: '#/components/schemas/XmlSubXCV'
+    DataToValidateDTO:
+      type: object
+      properties:
+        signedDocument:
+          $ref: '#/components/schemas/RemoteDocument'
+        originalDocuments:
+          type: array
+          items:
+            $ref: '#/components/schemas/RemoteDocument'
+        policy:
+          $ref: '#/components/schemas/RemoteDocument'
+        signatureId:
+          type: string
+    RemoteDocument:
+      type: object
+      properties:
+        bytes:
+          type: array
+          items:
+            type: string
+            format: byte
+        digestAlgorithm:
+          type: string
+          enum:
+            - SHA1
+            - SHA224
+            - SHA256
+            - SHA384
+            - SHA512
+            - SHA3_224
+            - SHA3_256
+            - SHA3_384
+            - SHA3_512
+            - RIPEMD160
+            - MD2
+            - MD5
+            - WHIRLPOOL
+        name:
+          type: string
+    TimestampResponseDTO:
+      type: object
+      properties:
+        binaries:
+          type: array
+          items:
+            type: string
+            format: byte
+    DigestDTO:
+      type: object
+      properties:
+        algorithm:
+          type: string
+          enum:
+            - SHA1
+            - SHA224
+            - SHA256
+            - SHA384
+            - SHA512
+            - SHA3_224
+            - SHA3_256
+            - SHA3_384
+            - SHA3_512
+            - RIPEMD160
+            - MD2
+            - MD5
+            - WHIRLPOOL
+        value:
+          type: array
+          items:
+            type: string
+            format: byte
+    SignatureValueDTO:
+      type: object
+      properties:
+        algorithm:
+          type: string
+          enum:
+            - RSA_RAW
+            - RSA_SHA1
+            - RSA_SHA224
+            - RSA_SHA256
+            - RSA_SHA384
+            - RSA_SHA512
+            - RSA_SHA3_224
+            - RSA_SHA3_256
+            - RSA_SHA3_384
+            - RSA_SHA3_512
+            - RSA_SSA_PSS_RAW_MGF1
+            - RSA_SSA_PSS_SHA1_MGF1
+            - RSA_SSA_PSS_SHA224_MGF1
+            - RSA_SSA_PSS_SHA256_MGF1
+            - RSA_SSA_PSS_SHA384_MGF1
+            - RSA_SSA_PSS_SHA512_MGF1
+            - RSA_SSA_PSS_SHA3_224_MGF1
+            - RSA_SSA_PSS_SHA3_256_MGF1
+            - RSA_SSA_PSS_SHA3_384_MGF1
+            - RSA_SSA_PSS_SHA3_512_MGF1
+            - RSA_RIPEMD160
+            - RSA_MD5
+            - RSA_MD2
+            - ECDSA_RAW
+            - ECDSA_SHA1
+            - ECDSA_SHA224
+            - ECDSA_SHA256
+            - ECDSA_SHA384
+            - ECDSA_SHA512
+            - ECDSA_SHA3_224
+            - ECDSA_SHA3_256
+            - ECDSA_SHA3_384
+            - ECDSA_SHA3_512
+            - ECDSA_RIPEMD160
+            - PLAIN_ECDSA_SHA1
+            - PLAIN_ECDSA_SHA224
+            - PLAIN_ECDSA_SHA256
+            - PLAIN_ECDSA_SHA384
+            - PLAIN_ECDSA_SHA512
+            - PLAIN_ECDSA_RIPEMD160
+            - DSA_RAW
+            - DSA_SHA1
+            - DSA_SHA224
+            - DSA_SHA256
+            - DSA_SHA384
+            - DSA_SHA512
+            - DSA_SHA3_224
+            - DSA_SHA3_256
+            - DSA_SHA3_384
+            - DSA_SHA3_512
+            - HMAC_SHA1
+            - HMAC_SHA224
+            - HMAC_SHA256
+            - HMAC_SHA384
+            - HMAC_SHA512
+            - HMAC_SHA3_224
+            - HMAC_SHA3_256
+            - HMAC_SHA3_384
+            - HMAC_SHA3_512
+            - HMAC_RIPEMD160
+        value:
+          type: array
+          items:
+            type: string
+            format: byte
+    RemoteCertificate:
+      type: object
+      properties:
+        encodedCertificate:
+          type: array
+          items:
+            type: string
+            format: byte
+    RemoteKeyEntry:
+      type: object
+      properties:
+        alias:
+          type: string
+        encryptionAlgo:
+          type: string
+          enum:
+            - RSA
+            - DSA
+            - ECDSA
+            - PLAIN_ECDSA
+            - HMAC
+        certificate:
+          $ref: '#/components/schemas/RemoteCertificate'
+        certificateChain:
+          type: array
+          items:
+            $ref: '#/components/schemas/RemoteCertificate'
+    ToBeSignedDTO:
+      type: object
+      properties:
+        bytes:
+          type: array
+          items:
+            type: string
+            format: byte
+    RemoteBLevelParameters:
+      type: object
+      properties:
+        trustAnchorBPPolicy:
+          type: boolean
+        signingDate:
+          type: string
+          format: date-time
+        claimedSignerRoles:
+          type: array
+          items:
+            type: string
+        policyId:
+          type: string
+        policyQualifier:
+          type: string
+        policyDescription:
+          type: string
+        policyDigestAlgorithm:
+          type: string
+          enum:
+            - SHA1
+            - SHA224
+            - SHA256
+            - SHA384
+            - SHA512
+            - SHA3_224
+            - SHA3_256
+            - SHA3_384
+            - SHA3_512
+            - RIPEMD160
+            - MD2
+            - MD5
+            - WHIRLPOOL
+        policyDigestValue:
+          type: array
+          items:
+            type: string
+            format: byte
+        policySpuri:
+          type: string
+        commitmentTypeIndications:
+          type: array
+          items:
+            type: string
+        signerLocationPostalAddress:
+          type: array
+          items:
+            type: string
+        signerLocationPostalCode:
+          type: string
+        signerLocationLocality:
+          type: string
+        signerLocationStateOrProvince:
+          type: string
+        signerLocationCountry:
+          type: string
+        signerLocationStreet:
+          type: string
+    RemoteSignatureParameters:
+      type: object
+      properties:
+        signingCertificate:
+          $ref: '#/components/schemas/RemoteCertificate'
+        certificateChain:
+          type: array
+          items:
+            $ref: '#/components/schemas/RemoteCertificate'
+        detachedContents:
+          type: array
+          items:
+            $ref: '#/components/schemas/RemoteDocument'
+        asicContainerType:
+          type: string
+          enum:
+            - ASiC_S
+            - ASiC_E
+        signatureLevel:
+          type: string
+          enum:
+            - XML-NOT-ETSI
+            - XAdES-C
+            - XAdES-X
+            - XAdES-XL
+            - XAdES-A
+            - XAdES-BASELINE-LTA
+            - XAdES-BASELINE-LT
+            - XAdES-BASELINE-T
+            - XAdES-BASELINE-B
+            - CMS-NOT-ETSI
+            - CAdES-BASELINE-LTA
+            - CAdES-BASELINE-LT
+            - CAdES-BASELINE-T
+            - CAdES-BASELINE-B
+            - CAdES-101733-C
+            - CAdES-101733-X
+            - CAdES-101733-A
+            - PDF-NOT-ETSI
+            - PAdES-BASELINE-LTA
+            - PAdES-BASELINE-LT
+            - PAdES-BASELINE-T
+            - PAdES-BASELINE-B
+            - PKCS7-B
+            - PKCS7-T
+            - PKCS7-LT
+            - PKCS7-LTA
+            - UNKNOWN
+        signaturePackaging:
+          type: string
+          enum:
+            - ENVELOPED
+            - ENVELOPING
+            - DETACHED
+            - INTERNALLY_DETACHED
+        signatureAlgorithm:
+          type: string
+          enum:
+            - RSA_RAW
+            - RSA_SHA1
+            - RSA_SHA224
+            - RSA_SHA256
+            - RSA_SHA384
+            - RSA_SHA512
+            - RSA_SHA3_224
+            - RSA_SHA3_256
+            - RSA_SHA3_384
+            - RSA_SHA3_512
+            - RSA_SSA_PSS_RAW_MGF1
+            - RSA_SSA_PSS_SHA1_MGF1
+            - RSA_SSA_PSS_SHA224_MGF1
+            - RSA_SSA_PSS_SHA256_MGF1
+            - RSA_SSA_PSS_SHA384_MGF1
+            - RSA_SSA_PSS_SHA512_MGF1
+            - RSA_SSA_PSS_SHA3_224_MGF1
+            - RSA_SSA_PSS_SHA3_256_MGF1
+            - RSA_SSA_PSS_SHA3_384_MGF1
+            - RSA_SSA_PSS_SHA3_512_MGF1
+            - RSA_RIPEMD160
+            - RSA_MD5
+            - RSA_MD2
+            - ECDSA_RAW
+            - ECDSA_SHA1
+            - ECDSA_SHA224
+            - ECDSA_SHA256
+            - ECDSA_SHA384
+            - ECDSA_SHA512
+            - ECDSA_SHA3_224
+            - ECDSA_SHA3_256
+            - ECDSA_SHA3_384
+            - ECDSA_SHA3_512
+            - ECDSA_RIPEMD160
+            - PLAIN_ECDSA_SHA1
+            - PLAIN_ECDSA_SHA224
+            - PLAIN_ECDSA_SHA256
+            - PLAIN_ECDSA_SHA384
+            - PLAIN_ECDSA_SHA512
+            - PLAIN_ECDSA_RIPEMD160
+            - DSA_RAW
+            - DSA_SHA1
+            - DSA_SHA224
+            - DSA_SHA256
+            - DSA_SHA384
+            - DSA_SHA512
+            - DSA_SHA3_224
+            - DSA_SHA3_256
+            - DSA_SHA3_384
+            - DSA_SHA3_512
+            - HMAC_SHA1
+            - HMAC_SHA224
+            - HMAC_SHA256
+            - HMAC_SHA384
+            - HMAC_SHA512
+            - HMAC_SHA3_224
+            - HMAC_SHA3_256
+            - HMAC_SHA3_384
+            - HMAC_SHA3_512
+            - HMAC_RIPEMD160
+        digestAlgorithm:
+          type: string
+          enum:
+            - SHA1
+            - SHA224
+            - SHA256
+            - SHA384
+            - SHA512
+            - SHA3_224
+            - SHA3_256
+            - SHA3_384
+            - SHA3_512
+            - RIPEMD160
+            - MD2
+            - MD5
+            - WHIRLPOOL
+        encryptionAlgorithm:
+          type: string
+          enum:
+            - RSA
+            - DSA
+            - ECDSA
+            - PLAIN_ECDSA
+            - HMAC
+        referenceDigestAlgorithm:
+          type: string
+          enum:
+            - SHA1
+            - SHA224
+            - SHA256
+            - SHA384
+            - SHA512
+            - SHA3_224
+            - SHA3_256
+            - SHA3_384
+            - SHA3_512
+            - RIPEMD160
+            - MD2
+            - MD5
+            - WHIRLPOOL
+        maskGenerationFunction:
+          type: string
+          enum:
+            - MGF1
+        contentTimestamps:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimestampDTO'
+        contentTimestampParameters:
+          $ref: '#/components/schemas/RemoteTimestampParameters'
+        signatureTimestampParameters:
+          $ref: '#/components/schemas/RemoteTimestampParameters'
+        archiveTimestampParameters:
+          $ref: '#/components/schemas/RemoteTimestampParameters'
+        signWithExpiredCertificate:
+          type: boolean
+        generateTBSWithoutCertificate:
+          type: boolean
+        blevelParams:
+          $ref: '#/components/schemas/RemoteBLevelParameters'
+    RemoteTimestampParameters:
+      type: object
+      properties:
+        digestAlgorithm:
+          type: string
+          enum:
+            - SHA1
+            - SHA224
+            - SHA256
+            - SHA384
+            - SHA512
+            - SHA3_224
+            - SHA3_256
+            - SHA3_384
+            - SHA3_512
+            - RIPEMD160
+            - MD2
+            - MD5
+            - WHIRLPOOL
+        canonicalizationMethod:
+          type: string
+        timestampContainerForm:
+          type: string
+          enum:
+            - PDF
+            - ASiC_E
+            - ASiC_S
+    SignOneDocumentDTO:
+      type: object
+      properties:
+        parameters:
+          $ref: '#/components/schemas/RemoteSignatureParameters'
+        signatureValue:
+          $ref: '#/components/schemas/SignatureValueDTO'
+        toSignDocument:
+          $ref: '#/components/schemas/RemoteDocument'
+    TimestampDTO:
+      type: object
+      properties:
+        binaries:
+          type: array
+          items:
+            type: string
+            format: byte
+        canonicalizationMethod:
+          type: string
+        type:
+          type: string
+          enum:
+            - CONTENT_TIMESTAMP
+            - ALL_DATA_OBJECTS_TIMESTAMP
+            - INDIVIDUAL_DATA_OBJECTS_TIMESTAMP
+            - SIGNATURE_TIMESTAMP
+            - VALIDATION_DATA_REFSONLY_TIMESTAMP
+            - VALIDATION_DATA_TIMESTAMP
+            - ARCHIVE_TIMESTAMP
+        includes:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimestampIncludeDTO'
+    TimestampIncludeDTO:
+      type: object
+      properties:
+        uri:
+          type: string
+        referencedData:
+          type: boolean
+    ExtendDocumentDTO:
+      type: object
+      properties:
+        toExtendDocument:
+          $ref: '#/components/schemas/RemoteDocument'
+        parameters:
+          $ref: '#/components/schemas/RemoteSignatureParameters'
+    TimestampOneDocumentDTO:
+      type: object
+      properties:
+        timestampParameters:
+          $ref: '#/components/schemas/RemoteTimestampParameters'
+        toTimestampDocument:
+          $ref: '#/components/schemas/RemoteDocument'
+    DataToSignOneDocumentDTO:
+      type: object
+      properties:
+        parameters:
+          $ref: '#/components/schemas/RemoteSignatureParameters'
+        toSignDocument:
+          $ref: '#/components/schemas/RemoteDocument'
+    SignMultipleDocumentDTO:
+      type: object
+      properties:
+        parameters:
+          $ref: '#/components/schemas/RemoteSignatureParameters'
+        signatureValue:
+          $ref: '#/components/schemas/SignatureValueDTO'
+        toSignDocuments:
+          type: array
+          items:
+            $ref: '#/components/schemas/RemoteDocument'
+    TimestampMultipleDocumentDTO:
+      type: object
+      properties:
+        timestampParameters:
+          $ref: '#/components/schemas/RemoteTimestampParameters'
+        toTimestampDocuments:
+          type: array
+          items:
+            $ref: '#/components/schemas/RemoteDocument'
+    DataToSignMultipleDocumentsDTO:
+      type: object
+      properties:
+        parameters:
+          $ref: '#/components/schemas/RemoteSignatureParameters'
+        toSignDocuments:
+          type: array
+          items:
+            $ref: '#/components/schemas/RemoteDocument'
+    CertificateReportsDTO:
+      type: object
+      properties:
+        diagnosticData:
+          $ref: '#/components/schemas/XmlDiagnosticData'
+        simpleCertificateReport:
+          $ref: '#/components/schemas/XmlSimpleCertificateReport'
+        detailedReport:
+          $ref: '#/components/schemas/XmlDetailedReport'
+    XmlSimpleCertificateReport:
+      type: object
+      properties:
+        chain:
+          type: array
+          xml:
+            name: Chain
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/XmlChainItem'
+        validationTime:
+          type: string
+          format: date-time
+          xml:
+            name: ValidationTime
+            attribute: true
+    XmlSubject:
+      type: object
+      properties:
+        commonName:
+          type: string
+        surname:
+          type: string
+        givenName:
+          type: string
+        pseudonym:
+          type: string
+        organizationName:
+          type: string
+        organizationUnit:
+          type: string
+        email:
+          type: string
+        locality:
+          type: string
+        state:
+          type: string
+        country:
+          type: string
+    XmlTrustAnchor:
+      required:
+        - countryCode
+        - trustServiceName
+        - trustServiceProvider
+        - trustServiceProviderRegistrationId
+      type: object
+      properties:
+        countryCode:
+          type: string
+        trustServiceProvider:
+          type: string
+        trustServiceProviderRegistrationId:
+          type: string
+        trustServiceName:
+          type: string
+    CertificateToValidateDTO:
+      type: object
+      properties:
+        certificate:
+          $ref: '#/components/schemas/RemoteCertificate'
+        certificateChain:
+          type: array
+          items:
+            $ref: '#/components/schemas/RemoteCertificate'
+        validationTime:
+          type: string
+          format: date-time

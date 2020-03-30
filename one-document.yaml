@@ -1,0 +1,563 @@
+openapi: "3.0.1"
+info:
+  title: DSS WebServices
+  version: 3.0.1
+  contact: {}
+  license:
+    name: Apache 2.0 License
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  - url: 'http://localhost:8080/services/rest/signature/one-document'
+paths:
+  /signDocument:
+    post:
+      summary: Sign document with signature from '/sign'
+      operationId: signDocument_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignMultipleDocumentDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemoteDocument'
+  /extendDocument:
+    post:
+      operationId: extendDocument_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExtendDocumentDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemoteDocument'
+  /timestampDocument:
+    post:
+      operationId: timestampDocuments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TimestampMultipleDocumentDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemoteDocument'
+  /getDataToSign:
+    post:
+      summary: Create digest of data and set parameters for signing
+      operationId: getDataToSign
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataToSignOneDocumentDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToBeSignedDTO'
+  /getDataToSignMultiple:
+    post:
+      operationId: getDataToSign_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataToSignMultipleDocumentsDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToBeSignedDTO'
+components:
+  schemas:
+    RemoteDocument:
+      type: object
+      properties:
+        bytes:
+          description: Document to be signed in base64 encoding
+          type: array
+          items:
+            type: string
+            format: byte
+        digestAlgorithm:
+          type: string
+          enum:
+            - SHA1
+            - SHA224
+            - SHA256
+            - SHA384
+            - SHA512
+            - SHA3_224
+            - SHA3_256
+            - SHA3_384
+            - SHA3_512
+            - RIPEMD160
+            - MD2
+            - MD5
+            - WHIRLPOOL
+        name:
+          description: Filename of the document
+          type: string
+    RemoteBLevelParameters:
+      type: object
+      properties:
+        trustAnchorBPPolicy:
+          type: boolean
+        signingDate:
+          description: Current time in ms from 1970
+          type: string
+          format: date-time
+        claimedSignerRoles:
+          type: array
+          items:
+            type: string
+        policyId:
+          type: string
+        policyQualifier:
+          type: string
+        policyDescription:
+          type: string
+        policyDigestAlgorithm:
+          type: string
+          enum:
+            - SHA1
+            - SHA224
+            - SHA256
+            - SHA384
+            - SHA512
+            - SHA3_224
+            - SHA3_256
+            - SHA3_384
+            - SHA3_512
+            - RIPEMD160
+            - MD2
+            - MD5
+            - WHIRLPOOL
+        policyDigestValue:
+          type: array
+          items:
+            type: string
+            format: byte
+        policySpuri:
+          type: string
+        commitmentTypeIndications:
+          type: array
+          items:
+            type: string
+        signerLocationPostalAddress:
+          type: array
+          items:
+            type: string
+        signerLocationPostalCode:
+          type: string
+        signerLocationLocality:
+          type: string
+        signerLocationStateOrProvince:
+          type: string
+        signerLocationCountry:
+          type: string
+        signerLocationStreet:
+          type: string
+    RemoteCertificate:
+      type: object
+      properties:
+        encodedCertificate:
+          type: array
+          items:
+            type: string
+            format: byte
+    RemoteSignatureParameters:
+      type: object
+      properties:
+        signingCertificate:
+          $ref: '#/components/schemas/RemoteCertificate'
+        certificateChain:
+          type: array
+          items:
+            $ref: '#/components/schemas/RemoteCertificate'
+        detachedContents:
+          type: array
+          items:
+            $ref: '#/components/schemas/RemoteDocument'
+        asicContainerType:
+          type: string
+          enum:
+            - ASiC_S
+            - ASiC_E
+        signatureLevel:
+          type: string
+          enum:
+            - XML-NOT-ETSI
+            - XAdES-C
+            - XAdES-X
+            - XAdES-XL
+            - XAdES-A
+            - XAdES-BASELINE-LTA
+            - XAdES-BASELINE-LT
+            - XAdES-BASELINE-T
+            - XAdES-BASELINE-B
+            - CMS-NOT-ETSI
+            - CAdES-BASELINE-LTA
+            - CAdES-BASELINE-LT
+            - CAdES-BASELINE-T
+            - CAdES-BASELINE-B
+            - CAdES-101733-C
+            - CAdES-101733-X
+            - CAdES-101733-A
+            - PDF-NOT-ETSI
+            - PAdES-BASELINE-LTA
+            - PAdES-BASELINE-LT
+            - PAdES-BASELINE-T
+            - PAdES-BASELINE-B
+            - PKCS7-B
+            - PKCS7-T
+            - PKCS7-LT
+            - PKCS7-LTA
+            - UNKNOWN
+        signaturePackaging:
+          type: string
+          enum:
+            - ENVELOPED
+            - ENVELOPING
+            - DETACHED
+            - INTERNALLY_DETACHED
+        signatureAlgorithm:
+          type: string
+          enum:
+            - RSA_RAW
+            - RSA_SHA1
+            - RSA_SHA224
+            - RSA_SHA256
+            - RSA_SHA384
+            - RSA_SHA512
+            - RSA_SHA3_224
+            - RSA_SHA3_256
+            - RSA_SHA3_384
+            - RSA_SHA3_512
+            - RSA_SSA_PSS_RAW_MGF1
+            - RSA_SSA_PSS_SHA1_MGF1
+            - RSA_SSA_PSS_SHA224_MGF1
+            - RSA_SSA_PSS_SHA256_MGF1
+            - RSA_SSA_PSS_SHA384_MGF1
+            - RSA_SSA_PSS_SHA512_MGF1
+            - RSA_SSA_PSS_SHA3_224_MGF1
+            - RSA_SSA_PSS_SHA3_256_MGF1
+            - RSA_SSA_PSS_SHA3_384_MGF1
+            - RSA_SSA_PSS_SHA3_512_MGF1
+            - RSA_RIPEMD160
+            - RSA_MD5
+            - RSA_MD2
+            - ECDSA_RAW
+            - ECDSA_SHA1
+            - ECDSA_SHA224
+            - ECDSA_SHA256
+            - ECDSA_SHA384
+            - ECDSA_SHA512
+            - ECDSA_SHA3_224
+            - ECDSA_SHA3_256
+            - ECDSA_SHA3_384
+            - ECDSA_SHA3_512
+            - ECDSA_RIPEMD160
+            - PLAIN_ECDSA_SHA1
+            - PLAIN_ECDSA_SHA224
+            - PLAIN_ECDSA_SHA256
+            - PLAIN_ECDSA_SHA384
+            - PLAIN_ECDSA_SHA512
+            - PLAIN_ECDSA_RIPEMD160
+            - DSA_RAW
+            - DSA_SHA1
+            - DSA_SHA224
+            - DSA_SHA256
+            - DSA_SHA384
+            - DSA_SHA512
+            - DSA_SHA3_224
+            - DSA_SHA3_256
+            - DSA_SHA3_384
+            - DSA_SHA3_512
+            - HMAC_SHA1
+            - HMAC_SHA224
+            - HMAC_SHA256
+            - HMAC_SHA384
+            - HMAC_SHA512
+            - HMAC_SHA3_224
+            - HMAC_SHA3_256
+            - HMAC_SHA3_384
+            - HMAC_SHA3_512
+            - HMAC_RIPEMD160
+        digestAlgorithm:
+          type: string
+          enum:
+            - SHA1
+            - SHA224
+            - SHA256
+            - SHA384
+            - SHA512
+            - SHA3_224
+            - SHA3_256
+            - SHA3_384
+            - SHA3_512
+            - RIPEMD160
+            - MD2
+            - MD5
+            - WHIRLPOOL
+        encryptionAlgorithm:
+          type: string
+          enum:
+            - RSA
+            - DSA
+            - ECDSA
+            - PLAIN_ECDSA
+            - HMAC
+        referenceDigestAlgorithm:
+          type: string
+          enum:
+            - SHA1
+            - SHA224
+            - SHA256
+            - SHA384
+            - SHA512
+            - SHA3_224
+            - SHA3_256
+            - SHA3_384
+            - SHA3_512
+            - RIPEMD160
+            - MD2
+            - MD5
+            - WHIRLPOOL
+        maskGenerationFunction:
+          type: string
+          enum:
+            - MGF1
+        contentTimestamps:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimestampDTO'
+        contentTimestampParameters:
+          $ref: '#/components/schemas/RemoteTimestampParameters'
+        signatureTimestampParameters:
+          $ref: '#/components/schemas/RemoteTimestampParameters'
+        archiveTimestampParameters:
+          $ref: '#/components/schemas/RemoteTimestampParameters'
+        signWithExpiredCertificate:
+          type: boolean
+        generateTBSWithoutCertificate:
+          type: boolean
+        blevelParams:
+          $ref: '#/components/schemas/RemoteBLevelParameters'
+    RemoteTimestampParameters:
+      type: object
+      properties:
+        digestAlgorithm:
+          type: string
+          enum:
+            - SHA1
+            - SHA224
+            - SHA256
+            - SHA384
+            - SHA512
+            - SHA3_224
+            - SHA3_256
+            - SHA3_384
+            - SHA3_512
+            - RIPEMD160
+            - MD2
+            - MD5
+            - WHIRLPOOL
+        canonicalizationMethod:
+          type: string
+        timestampContainerForm:
+          type: string
+          enum:
+            - PDF
+            - ASiC_E
+            - ASiC_S
+    SignOneDocumentDTO:
+      type: object
+      properties:
+        parameters:
+          $ref: '#/components/schemas/RemoteSignatureParameters'
+        signatureValue:
+          $ref: '#/components/schemas/SignatureValueDTO'
+        toSignDocument:
+          $ref: '#/components/schemas/RemoteDocument'
+    SignatureValueDTO:
+      type: object
+      properties:
+        algorithm:
+          description: Algorithm used in the '/sign' procedure
+          type: string
+          enum:
+            - RSA_RAW
+            - RSA_SHA1
+            - RSA_SHA224
+            - RSA_SHA256
+            - RSA_SHA384
+            - RSA_SHA512
+            - RSA_SHA3_224
+            - RSA_SHA3_256
+            - RSA_SHA3_384
+            - RSA_SHA3_512
+            - RSA_SSA_PSS_RAW_MGF1
+            - RSA_SSA_PSS_SHA1_MGF1
+            - RSA_SSA_PSS_SHA224_MGF1
+            - RSA_SSA_PSS_SHA256_MGF1
+            - RSA_SSA_PSS_SHA384_MGF1
+            - RSA_SSA_PSS_SHA512_MGF1
+            - RSA_SSA_PSS_SHA3_224_MGF1
+            - RSA_SSA_PSS_SHA3_256_MGF1
+            - RSA_SSA_PSS_SHA3_384_MGF1
+            - RSA_SSA_PSS_SHA3_512_MGF1
+            - RSA_RIPEMD160
+            - RSA_MD5
+            - RSA_MD2
+            - ECDSA_RAW
+            - ECDSA_SHA1
+            - ECDSA_SHA224
+            - ECDSA_SHA256
+            - ECDSA_SHA384
+            - ECDSA_SHA512
+            - ECDSA_SHA3_224
+            - ECDSA_SHA3_256
+            - ECDSA_SHA3_384
+            - ECDSA_SHA3_512
+            - ECDSA_RIPEMD160
+            - PLAIN_ECDSA_SHA1
+            - PLAIN_ECDSA_SHA224
+            - PLAIN_ECDSA_SHA256
+            - PLAIN_ECDSA_SHA384
+            - PLAIN_ECDSA_SHA512
+            - PLAIN_ECDSA_RIPEMD160
+            - DSA_RAW
+            - DSA_SHA1
+            - DSA_SHA224
+            - DSA_SHA256
+            - DSA_SHA384
+            - DSA_SHA512
+            - DSA_SHA3_224
+            - DSA_SHA3_256
+            - DSA_SHA3_384
+            - DSA_SHA3_512
+            - HMAC_SHA1
+            - HMAC_SHA224
+            - HMAC_SHA256
+            - HMAC_SHA384
+            - HMAC_SHA512
+            - HMAC_SHA3_224
+            - HMAC_SHA3_256
+            - HMAC_SHA3_384
+            - HMAC_SHA3_512
+            - HMAC_RIPEMD160
+        value:
+          type: array
+          description: Digest obtained from '/sign' procedure
+          items:
+            type: string
+            format: byte
+    TimestampDTO:
+      type: object
+      properties:
+        binaries:
+          type: array
+          items:
+            type: string
+            format: byte
+        canonicalizationMethod:
+          type: string
+        type:
+          type: string
+          enum:
+            - CONTENT_TIMESTAMP
+            - ALL_DATA_OBJECTS_TIMESTAMP
+            - INDIVIDUAL_DATA_OBJECTS_TIMESTAMP
+            - SIGNATURE_TIMESTAMP
+            - VALIDATION_DATA_REFSONLY_TIMESTAMP
+            - VALIDATION_DATA_TIMESTAMP
+            - ARCHIVE_TIMESTAMP
+        includes:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimestampIncludeDTO'
+    TimestampIncludeDTO:
+      type: object
+      properties:
+        uri:
+          type: string
+        referencedData:
+          type: boolean
+    ExtendDocumentDTO:
+      type: object
+      properties:
+        toExtendDocument:
+          $ref: '#/components/schemas/RemoteDocument'
+        parameters:
+          $ref: '#/components/schemas/RemoteSignatureParameters'
+    TimestampOneDocumentDTO:
+      type: object
+      properties:
+        timestampParameters:
+          $ref: '#/components/schemas/RemoteTimestampParameters'
+        toTimestampDocument:
+          $ref: '#/components/schemas/RemoteDocument'
+    ToBeSignedDTO:
+      type: object
+      properties:
+        bytes:
+          description: Bytes from '/getDataToSign'
+          type: array
+          items:
+            type: string
+            format: byte
+    DataToSignOneDocumentDTO:
+      type: object
+      properties:
+        parameters:
+          $ref: '#/components/schemas/RemoteSignatureParameters'
+        toSignDocument:
+          $ref: '#/components/schemas/RemoteDocument'
+    SignMultipleDocumentDTO:
+      type: object
+      properties:
+        parameters:
+          $ref: '#/components/schemas/RemoteSignatureParameters'
+        signatureValue:
+          $ref: '#/components/schemas/SignatureValueDTO'
+        toSignDocuments:
+          type: array
+          items:
+            $ref: '#/components/schemas/RemoteDocument'
+    TimestampMultipleDocumentDTO:
+      type: object
+      properties:
+        timestampParameters:
+          $ref: '#/components/schemas/RemoteTimestampParameters'
+        toTimestampDocuments:
+          type: array
+          items:
+            $ref: '#/components/schemas/RemoteDocument'
+    DataToSignMultipleDocumentsDTO:
+      type: object
+      properties:
+        parameters:
+          $ref: '#/components/schemas/RemoteSignatureParameters'
+        toSignDocuments:
+          type: array
+          items:
+            $ref: '#/components/schemas/RemoteDocument'
