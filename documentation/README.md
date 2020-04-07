@@ -26,7 +26,7 @@ Because the steps are atomic, the web-service allows you to move different opera
 ???? TODO
 
 ## Step by step on creating XAdES signatures
-This guide is best followed using the Postman examples provided. We will follow the general 3 steps on creating a signed document, but there will be specifications along the way.
+This guide is best followed using the [Postman examples](./DSS-REST-simplified.json) provided. We will follow the general 3 steps on creating a signed document, but there will be specifications along the way.
 
 **Step 0**
 Before step (1) we need to get the **encodedCertificate** from the server. The certificate can be obtained using GET at
@@ -72,7 +72,7 @@ It is very importat not to miss the **signingDate** at blevelParams. This must b
     "signingDate" : 1542794107033,
    
  
-All of the fields on the Postman example are not mandatory. Minimal needed parameters here are signatureLevel, signaturePackaging, digestAlgorithm, signingCertificate and signingTime. All of these parameters must also be equal between step(3) signDocument call (especially aforementioned signingDate). If the time is not provided the DSS server will instantiate a new date and produce a broken signature. The certificate chain is also recommended in the parameters.
+All of the fields on the [Postman examples](./DSS-REST-simplified.json) are not mandatory. Minimal needed parameters here are signatureLevel, signaturePackaging, digestAlgorithm, signingCertificate and signingTime. All of these parameters must also be equal between step(3) signDocument call (especially aforementioned signingDate). If the time is not provided the DSS server will instantiate a new date and produce a broken signature. The certificate chain is also recommended in the parameters.
 
 **Step 2**
 Here we use POST at
@@ -106,7 +106,7 @@ On the documents part we give the **bytes** of the original document encoded in 
 	    "name" : "RemoteDocument.xml"
     }
 
-The return of this step contains a **bytes** field which is a base64 encoded result of the whole process. On the Postman example XAdES (ENVELOPING) is used so the return is a base64 encoded XML file where the signature is embedded inside the XML.
+The return of this step contains a **bytes** field which is a base64 encoded result of the whole process. On the [Postman examples](./DSS-REST-simplified.json) XAdES (ENVELOPING) is used so the return is a base64 encoded XML file where the signature is embedded inside the XML.
 
 ## Validating a signed document
 This continues right where the step by step guide left off.
