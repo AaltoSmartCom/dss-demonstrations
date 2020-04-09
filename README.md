@@ -3,6 +3,8 @@
 This is the demonstration repository for project DSS : https://ec.europa.eu/cefdigital/wiki/display/CEFDIGITAL/eSignature. 
 The MOCCA -adapter has been deleted since it's unecessary for the current use case.
 
+- Find more documentation in the "[documentation](./documentation)" directory.
+
 
 ## Building the enviroment
 
@@ -12,6 +14,16 @@ production image.
 docker build -t signer . && docker run -d -p 8080:8080 signer
 ```
 
+## Generating you own .p12 keystore
+
+You can run the [setup-keys.sh](./setup.keys) with 2 parameters: your own keystore file and its password.
+```
+bash setup.keys example.p12 password
+```
+Or you can just run it and let the script generate them for you. 
+```
+bash setup.keys
+```
 
 ## Without docker
 If you for some reason want to generate the original tomcat zip files you can do it by running:
