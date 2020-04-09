@@ -8,7 +8,12 @@ The MOCCA -adapter has been deleted since it's unecessary for the current use ca
 
 REST-endpoint can be compiled with the given Dockerfile which will first create a build image and then the actual
 production image.
+```
+docker build -t signer . && docker run -d -p 8080:8080 signer
+```
 
+
+## Without docker
 If you for some reason want to generate the original tomcat zip files you can do it by running:
 ```
 mvn install || true && mvn package
