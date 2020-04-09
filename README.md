@@ -6,16 +6,9 @@ The MOCCA -adapter has been deleted since it's unecessary for the current use ca
 - Find more documentation in the "[documentation](./documentation)" directory.
 
 
-## Building the enviroment
-
-REST-endpoint can be compiled with the given Dockerfile which will first create a build image and then the actual
-production image.
-```
-docker build -t signer . && docker run -d -p 8080:8080 signer
-```
-
 ## Generating you own .p12 keystore
 
+If you want to change the key provided in the repository, you should do this *before* building the docker image.
 You can run the [setup-keys.sh](./setup.keys) with 2 parameters: your own keystore file and its password.
 ```
 bash setup.keys example.p12 password
@@ -23,6 +16,14 @@ bash setup.keys example.p12 password
 Or you can just run it and let the script generate them for you. 
 ```
 bash setup.keys
+```
+
+## Building the enviroment
+
+REST-endpoint can be compiled with the given Dockerfile which will first create a build image and then the actual
+production image.
+```
+docker build -t signer . && docker run -d -p 8080:8080 signer
 ```
 
 ## Without docker
