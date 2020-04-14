@@ -1,14 +1,14 @@
 ## Demonstrations for DSS : Digital Signature Service
 
 This is the demonstration repository for project DSS : https://ec.europa.eu/cefdigital/wiki/display/CEFDIGITAL/eSignature. 
-The MOCCA -adapter has been deleted since it's unecessary for the current use case.
+The MOCCA -adapter has been deleted since it's unecessary for the current use case and had broken depedencies that have been deleted by the Austrian authority.
 
 - Find more documentation in the "[documentation](./documentation)" directory.
 
 
 ## Generating you own .p12 keystore
 
-If you want to change the key provided in the repository, you should do this *before* building the docker image.
+If you want to change the key provided in the repository you should do it *before* building the docker image.
 You can run the [setup-keys.sh](./setup.keys) with 2 parameters: your own keystore file and its password.
 ```
 bash setup.keys example.p12 password
