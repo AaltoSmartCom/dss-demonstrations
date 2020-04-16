@@ -4,7 +4,6 @@ MAINTAINER Jaan Taponen(jaan.taponen@aalto.fi)
 # This section is purely for caching purposes.
 # Copy the module pom files for quicker rebuildment of the image.
 #
-COPY ./web.xml ./web.xml
 COPY ./pom.xml ./pom.xml
 COPY ./dss-mock-tsa/pom.xml ./dss-mock-tsa/
 COPY ./dss-standalone-app/pom.xml ./dss-standalone-app/
@@ -30,8 +29,9 @@ RUN mv dss-demo-bundle/target/dss-demo-bundle*.tar.gz . && \
      chmod +x ./catalina.sh &&\
      cd .. && cd ..  && \
      mv apache-tomcat* tomcat
-RUN  mv ./web.xml /home/dss-demo-bundle-5.6/tomcat/conf/web.xml
-#CMD ["tail", "-f", "/dev/null"]
+# Copying CORS configuration
+COPY ./web.xml ./web.xml
+RUN  mv ./web.xml /home/dss-demo-bundle*/tomcat/conf/web.xml
 #
 # Package stage
 #
