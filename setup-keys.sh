@@ -15,7 +15,7 @@ if [[ $# -ne 2 ]] ; then
             echo -n 'Give export password: '
             read -s password
             filename='user_a.p12'
-            openssl pkcs12 -inkey key.pem -in certificate.pem -export -out $filename -passout pass:$password
+            openssl pkcs12 -inkey key.pem -in certificate.pem -export -out $filename -passout pass:$password -name certificate
             rm certificate.pem && rm key.pem && clear
             break
             ;;
