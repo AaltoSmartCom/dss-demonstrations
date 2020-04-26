@@ -126,6 +126,11 @@ Validating uses the POST at
 	    "signatureId" : null
     }
 
+## CORS Headers with front-end applications
+Browser same-origin policy helps protect sites that use authenticated sessions. This means that for example on the DSS validation endpoint it does not matter wether we have set the CORS headers or not as the endpoint does not care about the user. If the DSS webservice's signing endpoints are used with for example (stateful) API-keys, configuring the CORS headers is more important. It is also good practice to set the CORS headers manually on every endpoint that will be used by any front-end applications.
+
+As this is a demonstration, the CORS headers are set on the Tomcat configuration so that it adds globally on every request the header ```Access-Control-Allow-Origin: *```. **This needs to be modified if it is important that the endpoints can be used only on selected sites.**
+
 ## References to the Java source
 Integration tests can be found at:
  [https://github.com/AaltoSmartCom/dss-demonstrations/tree/master/dss-demo-webapp/src/test/java/eu/europa/esig/dss/web/ws](https://github.com/AaltoSmartCom/dss-demonstrations/tree/master/dss-demo-webapp/src/test/java/eu/europa/esig/dss/web/ws)
