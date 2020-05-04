@@ -131,6 +131,8 @@ Browser same-origin policy helps protect sites that use authenticated sessions. 
 
 As this is a demonstration, the CORS headers are set on the Tomcat configuration so that it adds globally on every request the header ```Access-Control-Allow-Origin: *```. **This needs to be modified if it is important that the endpoints can be used only on selected sites.**
 
+More information about CORS can be found from [Mozilla](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS), [Wikipedia](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) or [W3C documentation](https://www.w3.org/TR/cors/).
+
 ## References to the Java source
 Integration tests can be found at:
  [https://github.com/AaltoSmartCom/dss-demonstrations/tree/master/dss-demo-webapp/src/test/java/eu/europa/esig/dss/web/ws](https://github.com/AaltoSmartCom/dss-demonstrations/tree/master/dss-demo-webapp/src/test/java/eu/europa/esig/dss/web/ws)
