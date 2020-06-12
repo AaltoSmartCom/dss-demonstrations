@@ -10,7 +10,8 @@ if [[ $# -ne 2 ]] ; then
         read -p "Create .p12 certificate?[Yy/Nn] " yn </dev/tty
         case $yn in
         [Yy]*)
-            openssl req -newkey rsa:2048 -nodes -keyout key.pem -x509 -days 365 -out certificate.pem
+            #openssl req -newkey rsa:2048 -nodes -keyout key.pem -x509 -days 365 -out certificate.pem
+            openssl req -x509 -nodes -days 3650 -newkey ec:<(openssl ecparam -name prime256v1) -keyout key.pem -out certificate.pem
             openssl x509 -text -noout -in certificate.pem
             echo -n 'Give export password: '
             read -s password
