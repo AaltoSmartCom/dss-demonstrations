@@ -1,0 +1,183 @@
+{
+	"info": {
+		"_postman_id": "44afdb4f-2b77-415c-86be-8739ca69eda0",
+		"name": "DSS REST services",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:8080/services/rest/server-signing/keys",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/services/rest/server-signing/keys",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"services",
+						"rest",
+						"server-signing",
+						"keys"
+					]
+				},
+				"description": "Retrieves available server keys"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/services/rest/server-signing/key/certificate",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/services/rest/server-signing/key/certificate",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"services",
+						"rest",
+						"server-signing",
+						"key",
+						"certificate"
+					]
+				},
+				"description": "Retrieves server key by its alias ('certificate' is the alias)"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/services/rest/signature/one-document/getDataToSign",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"parameters\" : {\r\n    \"signWithExpiredCertificate\" : false,\r\n    \"signatureLevel\" : \"XAdES_BASELINE_B\",\r\n    \"signaturePackaging\" : \"ENVELOPED\",\r\n    \"signatureAlgorithm\" : \"ECDSA_SHA256\",\r\n    \"encryptionAlgorithm\" : \"ECDSA\",\r\n    \"digestAlgorithm\" : \"SHA256\",\r\n    \"contentTimestampParameters\" : {\r\n      \"digestAlgorithm\" : \"SHA256\",\r\n      \"canonicalizationMethod\" : \"https://www.w3.org/TR/xml-c14n11#\"\r\n    },\r\n    \"signatureTimestampParameters\" : {\r\n      \"digestAlgorithm\" : \"SHA256\",\r\n      \"canonicalizationMethod\" : \"https://www.w3.org/TR/xml-c14n11#\"\r\n    },\r\n    \"archiveTimestampParameters\" : {\r\n      \"digestAlgorithm\" : \"SHA256\",\r\n      \"canonicalizationMethod\" : \"https://www.w3.org/TR/xml-c14n11#\"\r\n    },\r\n    \"signingCertificate\" : {\r\n      \"encodedCertificate\" : \"MIIB2TCCAX+gAwIBAgIUSnMZIUgfvXDUgXRDWbNr93AbdLcwCgYIKoZIzj0EAwIwQjELMAkGA1UEBhMCRkkxEDAOBgNVBAgMB1V1c2ltYWExITAfBgNVBAoMGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAeFw0yMDA2MTIwNjM4MTlaFw0zMDA2MTAwNjM4MTlaMEIxCzAJBgNVBAYTAkZJMRAwDgYDVQQIDAdVdXNpbWFhMSEwHwYDVQQKDBhJbnRlcm5ldCBXaWRnaXRzIFB0eSBMdGQwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASP24mNiFCZh2NSBvrDJm57lYpbS4pzmi8sPGuIHi1c5ctK1NtCnPqFI8oLA0ibY2VdnegCDr5wciGmV3aYdSPOo1MwUTAdBgNVHQ4EFgQUsyOebv2LNt1/6/ERfPm5ZWlPG3AwHwYDVR0jBBgwFoAUsyOebv2LNt1/6/ERfPm5ZWlPG3AwDwYDVR0TAQH/BAUwAwEB/zAKBggqhkjOPQQDAgNIADBFAiB5T2lbQ8QTj0mknywrBdKngMkjim9uL+sQnwG4SNPAjAIhANV2G97+X0dEmsgjRS4U9ZXMCvjPxKwgZJKTpcBhiKHH\"\r\n    },\r\n    \"blevelParams\" : {\r\n      \"trustAnchorBPPolicy\" : true,\r\n      \"signingDate\" : 1591944744909\r\n    }\r\n  },\r\n  \"toSignDocument\" : {\r\n    \"bytes\" : \"PG5vdGU+Cjx0bz5Ub3ZlPC90bz4KPGZyb20+SmFuaTwvZnJvbT4KPGhlYWRpbmc+UmVtaW5kZXI8L2hlYWRpbmc+Cjxib2R5PkRvbid0IGZvcmdldCBtZSB0aGlzIHdlZWtlbmQhPC9ib2R5Pgo8L25vdGU+\",\r\n    \"digestAlgorithm\" : null,\r\n    \"name\" : \"RemoteDocument.xml\"\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/services/rest/signature/one-document/getDataToSign",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"services",
+						"rest",
+						"signature",
+						"one-document",
+						"getDataToSign"
+					]
+				},
+				"description": "Retrieves the digest to be signed"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/services/rest/server-signing/sign/certificate/SHA256",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"bytes\": \"PGRzOlNpZ25lZEluZm8geG1sbnM6ZHM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvMDkveG1sZHNpZyMiPjxkczpDYW5vbmljYWxpemF0aW9uTWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8xMC94bWwtZXhjLWMxNG4jIj48L2RzOkNhbm9uaWNhbGl6YXRpb25NZXRob2Q+PGRzOlNpZ25hdHVyZU1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZHNpZy1tb3JlI2VjZHNhLXNoYTI1NiI+PC9kczpTaWduYXR1cmVNZXRob2Q+PGRzOlJlZmVyZW5jZSBJZD0ici1pZC04ZDQ2MzUzYjUyNGNhZTMzOTYzODNjNGJiOGFhYWM3OC0xIiBVUkk9IiI+PGRzOlRyYW5zZm9ybXM+PGRzOlRyYW5zZm9ybSBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnL1RSLzE5OTkvUkVDLXhwYXRoLTE5OTkxMTE2Ij48ZHM6WFBhdGg+bm90KGFuY2VzdG9yLW9yLXNlbGY6OmRzOlNpZ25hdHVyZSk8L2RzOlhQYXRoPjwvZHM6VHJhbnNmb3JtPjxkczpUcmFuc2Zvcm0gQWxnb3JpdGhtPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzEwL3htbC1leGMtYzE0biMiPjwvZHM6VHJhbnNmb3JtPjwvZHM6VHJhbnNmb3Jtcz48ZHM6RGlnZXN0TWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8wNC94bWxlbmMjc2hhMjU2Ij48L2RzOkRpZ2VzdE1ldGhvZD48ZHM6RGlnZXN0VmFsdWU+VlcvbVEzdG9sZitYdkRwVXFaemFZaHdXU3hkdTd2UU5Yd2QwN0FZLzA5RT08L2RzOkRpZ2VzdFZhbHVlPjwvZHM6UmVmZXJlbmNlPjxkczpSZWZlcmVuY2UgVHlwZT0iaHR0cDovL3VyaS5ldHNpLm9yZy8wMTkwMyNTaWduZWRQcm9wZXJ0aWVzIiBVUkk9IiN4YWRlcy1pZC04ZDQ2MzUzYjUyNGNhZTMzOTYzODNjNGJiOGFhYWM3OCI+PGRzOlRyYW5zZm9ybXM+PGRzOlRyYW5zZm9ybSBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMTAveG1sLWV4Yy1jMTRuIyI+PC9kczpUcmFuc2Zvcm0+PC9kczpUcmFuc2Zvcm1zPjxkczpEaWdlc3RNZXRob2QgQWxnb3JpdGhtPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGVuYyNzaGEyNTYiPjwvZHM6RGlnZXN0TWV0aG9kPjxkczpEaWdlc3RWYWx1ZT4xOVI4blI2TTZiaml4eTlqUzZ2VVRkcEgrczQvTGQ3TXF3VitNTnRadDhvPTwvZHM6RGlnZXN0VmFsdWU+PC9kczpSZWZlcmVuY2U+PC9kczpTaWduZWRJbmZvPg==\"}"
+				},
+				"url": {
+					"raw": "localhost:8080/services/rest/server-signing/sign/certificate/SHA256",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"services",
+						"rest",
+						"server-signing",
+						"sign",
+						"certificate",
+						"SHA256"
+					]
+				},
+				"description": "Signs a digest on the server with the key 'certificate' and digest algorithm SHA256"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/services/rest/signature/one-document/signDocument",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"parameters\" : {\r\n    \"signingCertificate\" : {\r\n      \"encodedCertificate\" : \"MIIB2TCCAX+gAwIBAgIUSnMZIUgfvXDUgXRDWbNr93AbdLcwCgYIKoZIzj0EAwIwQjELMAkGA1UEBhMCRkkxEDAOBgNVBAgMB1V1c2ltYWExITAfBgNVBAoMGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAeFw0yMDA2MTIwNjM4MTlaFw0zMDA2MTAwNjM4MTlaMEIxCzAJBgNVBAYTAkZJMRAwDgYDVQQIDAdVdXNpbWFhMSEwHwYDVQQKDBhJbnRlcm5ldCBXaWRnaXRzIFB0eSBMdGQwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASP24mNiFCZh2NSBvrDJm57lYpbS4pzmi8sPGuIHi1c5ctK1NtCnPqFI8oLA0ibY2VdnegCDr5wciGmV3aYdSPOo1MwUTAdBgNVHQ4EFgQUsyOebv2LNt1/6/ERfPm5ZWlPG3AwHwYDVR0jBBgwFoAUsyOebv2LNt1/6/ERfPm5ZWlPG3AwDwYDVR0TAQH/BAUwAwEB/zAKBggqhkjOPQQDAgNIADBFAiB5T2lbQ8QTj0mknywrBdKngMkjim9uL+sQnwG4SNPAjAIhANV2G97+X0dEmsgjRS4U9ZXMCvjPxKwgZJKTpcBhiKHH\"\r\n    },\r\n    \"signatureLevel\" : \"XAdES_BASELINE_B\",\r\n    \"signaturePackaging\" : \"ENVELOPED\",\r\n    \"signatureAlgorithm\" : \"ECDSA_SHA256\",\r\n    \"digestAlgorithm\" : \"SHA256\",\r\n    \"encryptionAlgorithm\" : \"ECDSA\",\r\n    \"contentTimestampParameters\" : {\r\n      \"digestAlgorithm\" : \"SHA256\",\r\n      \"canonicalizationMethod\" : \"https://www.w3.org/TR/xml-c14n11#\"\r\n    },\r\n    \"signatureTimestampParameters\" : {\r\n      \"digestAlgorithm\" : \"SHA256\",\r\n      \"canonicalizationMethod\" : \"https://www.w3.org/TR/xml-c14n11#\"\r\n    },\r\n    \"archiveTimestampParameters\" : {\r\n      \"digestAlgorithm\" : \"SHA256\",\r\n      \"canonicalizationMethod\" : \"https://www.w3.org/TR/xml-c14n11#\"\r\n    },\r\n    \"signWithExpiredCertificate\" : false,\r\n    \"blevelParams\" : {\r\n      \"trustAnchorBPPolicy\" : true,\r\n      \"signingDate\" : 1591944744909\r\n    }\r\n  },\r\n  \"signatureValue\" : {\r\n    \"algorithm\" : \"ECDSA_SHA256\",\r\n    \"value\" : \"MEUCIHzcRJ9IqEvqBMNXxuvZbSp9sGoadU+54j6cvAJT8k08AiEAwA3ncw1I7zhZ7qwya7HubPm6IDE0ntplm0meS7h0bRM=\"\r\n  },\r\n  \"toSignDocument\" : {\r\n    \"bytes\" : \"PG5vdGU+Cjx0bz5Ub3ZlPC90bz4KPGZyb20+SmFuaTwvZnJvbT4KPGhlYWRpbmc+UmVtaW5kZXI8L2hlYWRpbmc+Cjxib2R5PkRvbid0IGZvcmdldCBtZSB0aGlzIHdlZWtlbmQhPC9ib2R5Pgo8L25vdGU+\",\r\n    \"digestAlgorithm\" : null,\r\n    \"name\" : \"RemoteDocument.xml\"\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/services/rest/signature/one-document/signDocument",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"services",
+						"rest",
+						"signature",
+						"one-document",
+						"signDocument"
+					]
+				},
+				"description": "Sends the signature values to the server"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/services/rest/validation/validateSignature",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"signedDocument\" : {\r\n    \"bytes\" : \"PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PG5vdGU+Cjx0bz5Ub3ZlPC90bz4KPGZyb20+SmFuaTwvZnJvbT4KPGhlYWRpbmc+UmVtaW5kZXI8L2hlYWRpbmc+Cjxib2R5PkRvbid0IGZvcmdldCBtZSB0aGlzIHdlZWtlbmQhPC9ib2R5Pgo8ZHM6U2lnbmF0dXJlIHhtbG5zOmRzPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3htbGRzaWcjIiBJZD0iaWQtOGQ0NjM1M2I1MjRjYWUzMzk2MzgzYzRiYjhhYWFjNzgiPjxkczpTaWduZWRJbmZvPjxkczpDYW5vbmljYWxpemF0aW9uTWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8xMC94bWwtZXhjLWMxNG4jIi8+PGRzOlNpZ25hdHVyZU1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZHNpZy1tb3JlI2VjZHNhLXNoYTI1NiIvPjxkczpSZWZlcmVuY2UgSWQ9InItaWQtOGQ0NjM1M2I1MjRjYWUzMzk2MzgzYzRiYjhhYWFjNzgtMSIgVVJJPSIiPjxkczpUcmFuc2Zvcm1zPjxkczpUcmFuc2Zvcm0gQWxnb3JpdGhtPSJodHRwOi8vd3d3LnczLm9yZy9UUi8xOTk5L1JFQy14cGF0aC0xOTk5MTExNiI+PGRzOlhQYXRoPm5vdChhbmNlc3Rvci1vci1zZWxmOjpkczpTaWduYXR1cmUpPC9kczpYUGF0aD48L2RzOlRyYW5zZm9ybT48ZHM6VHJhbnNmb3JtIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8xMC94bWwtZXhjLWMxNG4jIi8+PC9kczpUcmFuc2Zvcm1zPjxkczpEaWdlc3RNZXRob2QgQWxnb3JpdGhtPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGVuYyNzaGEyNTYiLz48ZHM6RGlnZXN0VmFsdWU+VlcvbVEzdG9sZitYdkRwVXFaemFZaHdXU3hkdTd2UU5Yd2QwN0FZLzA5RT08L2RzOkRpZ2VzdFZhbHVlPjwvZHM6UmVmZXJlbmNlPjxkczpSZWZlcmVuY2UgVHlwZT0iaHR0cDovL3VyaS5ldHNpLm9yZy8wMTkwMyNTaWduZWRQcm9wZXJ0aWVzIiBVUkk9IiN4YWRlcy1pZC04ZDQ2MzUzYjUyNGNhZTMzOTYzODNjNGJiOGFhYWM3OCI+PGRzOlRyYW5zZm9ybXM+PGRzOlRyYW5zZm9ybSBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMTAveG1sLWV4Yy1jMTRuIyIvPjwvZHM6VHJhbnNmb3Jtcz48ZHM6RGlnZXN0TWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8wNC94bWxlbmMjc2hhMjU2Ii8+PGRzOkRpZ2VzdFZhbHVlPjE5UjhuUjZNNmJqaXh5OWpTNnZVVGRwSCtzNC9MZDdNcXdWK01OdFp0OG89PC9kczpEaWdlc3RWYWx1ZT48L2RzOlJlZmVyZW5jZT48L2RzOlNpZ25lZEluZm8+PGRzOlNpZ25hdHVyZVZhbHVlIElkPSJ2YWx1ZS1pZC04ZDQ2MzUzYjUyNGNhZTMzOTYzODNjNGJiOGFhYWM3OCI+Zk54RW4waW9TK29FdzFmRzY5bHRLbjJ3YWhwMVQ3bmlQcHk4QWxQeVRUekFEZWR6RFVqdk9GbnVyREpyc2U1cytib2dNVFNlMm1XYlNaNUx1SFJ0RXc9PTwvZHM6U2lnbmF0dXJlVmFsdWU+PGRzOktleUluZm8+PGRzOlg1MDlEYXRhPjxkczpYNTA5Q2VydGlmaWNhdGU+TUlJQjJUQ0NBWCtnQXdJQkFnSVVTbk1aSVVnZnZYRFVnWFJEV2JOcjkzQWJkTGN3Q2dZSUtvWkl6ajBFQXdJd1FqRUxNQWtHQTFVRUJoTUNSa2t4RURBT0JnTlZCQWdNQjFWMWMybHRZV0V4SVRBZkJnTlZCQW9NR0VsdWRHVnlibVYwSUZkcFpHZHBkSE1nVUhSNUlFeDBaREFlRncweU1EQTJNVEl3TmpNNE1UbGFGdzB6TURBMk1UQXdOak00TVRsYU1FSXhDekFKQmdOVkJBWVRBa1pKTVJBd0RnWURWUVFJREFkVmRYTnBiV0ZoTVNFd0h3WURWUVFLREJoSmJuUmxjbTVsZENCWGFXUm5hWFJ6SUZCMGVTQk1kR1F3V1RBVEJnY3Foa2pPUFFJQkJnZ3Foa2pPUFFNQkJ3TkNBQVNQMjRtTmlGQ1poMk5TQnZyREptNTdsWXBiUzRwem1pOHNQR3VJSGkxYzVjdEsxTnRDblBxRkk4b0xBMGliWTJWZG5lZ0NEcjV3Y2lHbVYzYVlkU1BPbzFNd1VUQWRCZ05WSFE0RUZnUVVzeU9lYnYyTE50MS82L0VSZlBtNVpXbFBHM0F3SHdZRFZSMGpCQmd3Rm9BVXN5T2VidjJMTnQxLzYvRVJmUG01WldsUEczQXdEd1lEVlIwVEFRSC9CQVV3QXdFQi96QUtCZ2dxaGtqT1BRUURBZ05JQURCRkFpQjVUMmxiUThRVGowbWtueXdyQmRLbmdNa2ppbTl1TCtzUW53RzRTTlBBakFJaEFOVjJHOTcrWDBkRW1zZ2pSUzRVOVpYTUN2alB4S3dnWkpLVHBjQmhpS0hIPC9kczpYNTA5Q2VydGlmaWNhdGU+PC9kczpYNTA5RGF0YT48L2RzOktleUluZm8+PGRzOk9iamVjdD48eGFkZXM6UXVhbGlmeWluZ1Byb3BlcnRpZXMgeG1sbnM6eGFkZXM9Imh0dHA6Ly91cmkuZXRzaS5vcmcvMDE5MDMvdjEuMy4yIyIgVGFyZ2V0PSIjaWQtOGQ0NjM1M2I1MjRjYWUzMzk2MzgzYzRiYjhhYWFjNzgiPjx4YWRlczpTaWduZWRQcm9wZXJ0aWVzIElkPSJ4YWRlcy1pZC04ZDQ2MzUzYjUyNGNhZTMzOTYzODNjNGJiOGFhYWM3OCI+PHhhZGVzOlNpZ25lZFNpZ25hdHVyZVByb3BlcnRpZXM+PHhhZGVzOlNpZ25pbmdUaW1lPjIwMjAtMDYtMTJUMDY6NTI6MjRaPC94YWRlczpTaWduaW5nVGltZT48eGFkZXM6U2lnbmluZ0NlcnRpZmljYXRlVjI+PHhhZGVzOkNlcnQ+PHhhZGVzOkNlcnREaWdlc3Q+PGRzOkRpZ2VzdE1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZW5jI3NoYTUxMiIvPjxkczpEaWdlc3RWYWx1ZT5DOG50UFpOSVFhTVNSUWx1RVUwZnpqTmtmcGxkSmkzdVQ4REZwM1JDTGgvWUlDSCtadVMxWHd0Wk00ZlA1N0cvMEtyTVhjMWhzREIwU0VnUE90RTB6Zz09PC9kczpEaWdlc3RWYWx1ZT48L3hhZGVzOkNlcnREaWdlc3Q+PHhhZGVzOklzc3VlclNlcmlhbFYyPk1GNHdScVJFTUVJeEN6QUpCZ05WQkFZVEFrWkpNUkF3RGdZRFZRUUlEQWRWZFhOcGJXRmhNU0V3SHdZRFZRUUtEQmhKYm5SbGNtNWxkQ0JYYVdSbmFYUnpJRkIwZVNCTWRHUUNGRXB6R1NGSUg3MXcxSUYwUTFtemEvZHdHM1MzPC94YWRlczpJc3N1ZXJTZXJpYWxWMj48L3hhZGVzOkNlcnQ+PC94YWRlczpTaWduaW5nQ2VydGlmaWNhdGVWMj48eGFkZXM6U2lnbmF0dXJlUG9saWN5SWRlbnRpZmllcj48eGFkZXM6U2lnbmF0dXJlUG9saWN5SW1wbGllZC8+PC94YWRlczpTaWduYXR1cmVQb2xpY3lJZGVudGlmaWVyPjwveGFkZXM6U2lnbmVkU2lnbmF0dXJlUHJvcGVydGllcz48eGFkZXM6U2lnbmVkRGF0YU9iamVjdFByb3BlcnRpZXM+PHhhZGVzOkRhdGFPYmplY3RGb3JtYXQgT2JqZWN0UmVmZXJlbmNlPSIjci1pZC04ZDQ2MzUzYjUyNGNhZTMzOTYzODNjNGJiOGFhYWM3OC0xIj48eGFkZXM6TWltZVR5cGU+dGV4dC94bWw8L3hhZGVzOk1pbWVUeXBlPjwveGFkZXM6RGF0YU9iamVjdEZvcm1hdD48L3hhZGVzOlNpZ25lZERhdGFPYmplY3RQcm9wZXJ0aWVzPjwveGFkZXM6U2lnbmVkUHJvcGVydGllcz48L3hhZGVzOlF1YWxpZnlpbmdQcm9wZXJ0aWVzPjwvZHM6T2JqZWN0PjwvZHM6U2lnbmF0dXJlPjwvbm90ZT4=\",\r\n    \"digestAlgorithm\" : null,\r\n    \"name\" : \"RemoteDocument-signed-xades-baseline-b.xml\"\r\n  },\r\n  \"policy\" : null,\r\n  \"signatureId\" : null\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/services/rest/validation/validateSignature",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"services",
+						"rest",
+						"validation",
+						"validateSignature"
+					]
+				},
+				"description": "Validates a signed document"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
